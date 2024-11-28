@@ -1,4 +1,3 @@
-#+TITLE: config
 #+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
