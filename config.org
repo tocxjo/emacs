@@ -1,0 +1,505 @@
+#+TITLE: config
+#+AUTHOR: lemon / tocxjo
+#+OPTIONS: toc:nil
+#+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
+
+* MELPA
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+
+  (setq package-archives
+        '(("gnu" . "https://elpa.gnu.org/packages/")
+          ("melpa" . "https://melpa.org/packages/")
+          ("org" . "https://orgmode.org/elpa/")))
+
+  (package-initialize)
+#+END_SRC
+
+* SPLASH SCREEN
+#+BEGIN_SRC emacs-lisp
+  (require 'enlight)
+
+  (setq enlight-ascii-art
+ "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⢉⣐⣦⣄⣤⣤⣤⣤⣤⣄⣀⡀⠠⠭⠉⣛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⢀⣠⠤⠶⠖⣛⣩⣭⣥⣶⣶⣶⣶⣶⡦⠤⢨⣭⣍⣛⡓⠶⣬⣄⡂⠍⡛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠀⣠⠔⢊⣩⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣰⡏⣽⣿⣷⠘⣿⣷⣶⣬⣙⠳⢦⣀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⣠⠔⣋⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠙⢧⣌⠛⠛⣠⣿⣿⣿⣿⣿⣿⣦⣍⠓⢦⣀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⡿⠋⠀⡠⠚⣡⣾⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⡛⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣍⠳⣄⡀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⠟⠀⣠⠎⣴⣾⣿⣿⣿⣿⢡⣿⣿⣿⠿⠟⣛⣛⣛⣋⡛⠟⣛⣉⣍⣙⡛⠦⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠻⣿⣷⣈⠻⢦⡀⠙⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⠏⠀⡀⠳⢄⠙⠿⣿⣿⣟⢿⡾⢛⣩⠤⣶⣿⣿⠿⢋⣥⣶⣿⣿⣿⣿⣿⣿⣷⣄⠙⠻⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶⡌⢫⣄⡀⠑⢄⠈⠻⣿⣿⣿⣿⣿
+  ⣿⣿⠃⠀⣶⡇⢠⣄⠈⠒⢌⡙⠟⣩⣴⣋⣵⣾⣿⠟⣡⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣽⣿⣷⣶⡬⠙⠻⣿⣿⠗⣞⡿⢿⣧⠠⢹⣿⠀⠌⠳⡀⠘⢿⣿⣿⣿
+  ⣿⣿⣶⠄⢨⠐⣿⣿⣿⣶⠄⢀⣼⣿⠿⢿⣿⡟⢡⠶⣶⣭⢭⣭⣛⣻⠿⣿⣿⣿⣿⡿⢩⣿⣿⣿⣿⡡⠶⢿⣷⣌⡁⢾⣿⣿⡜⣏⠒⠛⠋⣴⢻⡆⡘⢆⠈⢿⣿⣿
+  ⣿⣿⠃⣴⣿⣦⠸⣿⣿⠋⣰⡿⢋⣴⣾⣿⣿⢃⣾⣿⢛⠃⣶⣶⣮⣭⡿⢣⣾⡿⢋⢀⡟⣿⣿⣿⣿⣿⣿⣦⣍⣻⣿⣦⠙⢿⡷⣸⠇⡞⠇⠙⠀⠀⠗⠘⡆⠀⢻⣿
+  ⣿⣿⣧⡉⠙⢁⣼⣿⠇⣼⠏⣴⣿⣿⣿⣿⠃⣾⣿⡏⠈⣸⣿⣿⣿⡿⢡⣿⡟⣡⡿⢸⠇⣿⡇⣿⡿⣿⣿⣿⣿⣿⣿⣿⣷⣌⢋⡳⠃⠙⠊⣀⠤⠒⠊⣡⣄⠠⣾⣿
+  ⣿⣿⠏⣠⣤⡌⢿⣿⢠⡏⣼⣿⣿⣿⢫⠏⠀⣭⣭⠁⠀⡛⢿⣿⣿⠇⣾⡟⣰⡿⠇⠻⠀⠿⣷⡘⣿⣿⣿⣿⠿⠿⣿⣿⣿⣿⣆⠠⠔⠚⢉⣀⣤⣶⡀⠻⡿⠀⣿⣿
+  ⣿⡏⣰⣿⣿⣿⡄⣿⢸⢰⣿⣿⣿⣿⠠⢠⣧⠙⠿⠰⡇⢿⠾⠹⣿⠀⢻⢠⣿⣶⣷⠸⢰⡘⣶⣦⡈⠻⣿⣿⠘⣷⣦⡙⢿⣿⣿⣆⠀⣾⣿⣿⣿⣿⣷⡄⣇⠸⣿⣿
+  ⣿⡇⣿⣿⣿⡿⠃⣿⡈⠘⣿⣿⣿⣿⠀⠈⣠⠴⠒⠂⣄⠀⣴⣶⣈⡸⡌⢸⣿⡿⠛⠃⠀⠳⠌⠻⣧⡐⢼⣿⣷⣼⣿⣿⣆⢻⣿⣿⡆⠸⣿⣿⣿⣿⡟⠀⣿⡷⢘⣿
+  ⡿⠃⠻⠛⠛⣡⣾⣿⣧⡀⢹⣿⣿⡿⠀⣾⡏⣤⣤⠘⠏⢡⣿⣿⣿⣿⣿⣿⣯⠔⠈⠉⢉⣶⣄⠀⢈⡛⠌⠻⣿⣿⣿⣿⣿⠈⣿⣿⣿⠀⢻⣿⣿⣿⣷⡄⢹⢁⣼⣿
+  ⣿⣿⣿⣶⣾⣿⣿⣿⡿⠋⣠⣴⣿⠇⢸⣿⠀⣏⠛⠃⠀⣸⣿⣿⣿⣿⣿⣿⡇⢰⣿⡇⡈⠛⢹⣷⡀⢻⡄⣷⣬⡙⠻⠿⠟⣠⣿⣿⣿⡇⢸⣿⣿⣿⡟⣡⣶⣌⢻⣿
+  ⣿⣿⣿⣿⣿⣿⣿⡏⢰⣿⣿⣿⠃⡴⣿⢿⣧⡘⠛⠃⣠⣿⣿⣿⣿⣿⣿⣿⡇⢸⣌⣙⣛⠂⣸⣿⡇⢸⡇⣿⡟⣻⣿⣶⣿⣿⣿⣿⣿⠃⣼⣿⣿⡿⢰⣿⣿⣿⣆⢻
+  ⣿⣿⣿⣿⣿⡿⠃⠀⣿⣿⣿⡏⣠⠠⢁⢂⠂⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡉⣉⣉⡴⣿⣿⣥⣿⠇⠟⣈⡻⣿⣿⣿⣿⣿⣿⡟⢠⣿⣿⣿⡇⢸⣿⣿⣿⡿⢸
+  ⣿⣿⣿⣿⡿⠀⣾⡆⢻⣿⣿⡇⣿⣦⣤⣦⣦⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡐⡐⡐⡄⠈⢿⣿⣟⣠⡾⢛⢻⡌⣿⣿⣿⣿⡿⠀⣾⣿⣿⣿⣷⠈⢿⣿⠿⢡⣿
+  ⣿⣿⣿⣿⣇⠀⢉⣡⣿⠟⠻⣧⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣘⣀⣈⣵⣿⣿⠒⣋⡾⢁⣿⣿⣿⡿⠀⣾⣿⣿⣿⣿⣿⣿⡆⢡⣶⣿⣿
+  ⣿⣿⣿⣿⣿⣷⣤⡈⣤⣤⣾⡿⢱⣌⠻⣿⣿⣿⣿⣿⣇⠠⣶⣶⣶⡭⢉⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⣛⣛⣩⣴⣿⣿⣿⡿⢡⠀⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣷⣄⠉⠛⢡⣿⣿⣷⣬⣙⠻⠿⣿⣿⣶⣬⣭⣥⣶⣿⣿⣿⣿⣿⣿⣿⡿⠟⣩⣴⣿⣿⣿⣿⡟⣹⣿⣿⠃⣿⣷⣄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⡿⠟⢛⣉⡄⢰⣿⣿⣿⣿⢹⣿⣿⣶⡦⠉⠙⣛⠻⠿⣿⣿⠿⠿⠛⡛⢉⣁⠲⠿⣿⣿⣿⣿⣿⠏⣴⣿⣿⣿⡸⣿⣿⣿⣷⡌⠻⢿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⠏⣡⣾⣿⣯⣾⣿⣿⣿⣿⠇⣾⣿⡿⢁⠲⡛⢷⣌⠙⡵⢸⢁⠤⢖⣋⠤⢿⡿⠟⣃⡀⢻⣿⣿⣿⢸⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣦⠈⢿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⠿⢃⢾⣿⡿⢁⣾⠦⣠⣅⡠⠨⠅⠙⠂⠨⠡⠠⡬⣠⡀⣾⣿⣿⡈⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢿⣿⣿⣿⣿⣿")
+
+  (defun enlight-open-org-agenda ()
+    (interactive)
+    (org-agenda))
+
+  (defun enlight-open-org-roam ()
+    (interactive)
+    (org-roam-node-find))
+
+  (defun enlight-open-calendar ()
+    (interactive)
+    (calendar))
+
+  (setq enlight-buttons
+        '((:label "org agenda" :action enlight-open-org-agenda)
+          (:label "org roam" :action enlight-open-org-roam)
+          (:label "calendar" :action enlight-open-calendar)))
+
+  (defun enlight-create-screen (&rest _)
+    (erase-buffer)
+    (insert enlight-ascii-art)
+    (goto-char (point-min)))
+
+  (defun enlight-custom-splash ()
+    (enlight-create-screen
+     :title "welcome fag"
+     :ascii enlight-ascii-art
+     :buttons enlight-buttons))
+
+  (setq initial-buffer-choice #'enlight-custom-splash)
+
+  (with-eval-after-load 'evil
+    (evil-mode 1))
+#+END_SRC
+
+* EMACS CONFIG
+#+BEGIN_SRC emacs-lisp
+  ;; disable backup files
+  (setq make-backup-files nil)
+
+  ;; disable basic UI 
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  ;; better visualization 
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+  (setq-default fill-column 80)
+
+  ;; relative line numbers
+  (global-display-line-numbers-mode t)
+  (setq display-line-numbers-type 'relative)
+
+  ;; inhibit startup message
+  (setq inhibit-startup-message t)
+
+  ;; ignore case while searching
+  (setq case-fold-search t)
+  (setq grep-command "rg --no-heading --vimgrep --smart-case ")
+
+  ;; enable tab-bar mode
+  (tab-bar-mode 1)
+
+  (set-language-environment "Japanese")
+
+  ;; set coding system to UTF-8
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (setq buffer-file-coding-system 'utf-8)
+
+  ;; alias for y/n/p
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+  ;; geometry
+  (setq initial-frame-alist '((width . 92) (height . 24)))
+
+  ;; border
+  (setq default-frame-alist '((internal-border-width . 24)))
+
+  ;; opacity
+  (set-frame-parameter (selected-frame) 'alpha '(98 . 98))
+
+  ;; pomodoro sound
+  (setq org-clock-sound "clave.wav")
+#+END_SRC
+
+* EVIL MODE
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-keybinding nil)
+    :config
+    ;; (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+    ;; (evil-define-key 'visual org-mode-map (kbd "TAB") 'org-cycle)
+    ;; (evil-define-key 'motion org-mode-map (kbd "TAB") 'org-cycle)
+    ;; (with-eval-after-load 'evil-maps
+    ;;   (define-key evil-motion-state-map (kbd "SPC") nil)
+    ;;   (define-key evil-motion-state-map (kbd "RET") nil)
+    ;;   (define-key evil-motion-state-map (kbd "TAB") nil))
+    (define-key evil-motion-state-map (kbd "RET") nil)
+    (evil-mode 1)
+    (evil-set-undo-system 'undo-redo))
+
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+  
+  (require 'evil-org)
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
+#+END_SRC
+
+* GENERAL KEYBINDINGS
+#+BEGIN_SRC emacs-lisp
+    (require 'general)
+
+    (general-create-definer my-leader-def
+      :prefix "SPC"
+      :non-normal-prefix "M-SPC")
+
+    (general-define-key
+     :keymaps 'evil-insert-state-map
+     "SPC" 'self-insert-command)
+
+    (my-leader-def
+     :keymaps 'evil-normal-state-map  
+     "f"  '(:ignore t :which-key "file")
+     "fc" '(compile :which-key "compile file")
+     "fd" '(dired :which-key "launch dired")
+     "ff" '(find-file :which-key "find file")
+     "fp" '(lambda () (interactive) (find-file "~/.emacs.d/config.org") :which-key "open config.org")
+     "fr" '(recentf-open-files :which-key "recent files")
+     "fs" '(save-buffer :which-key "save file")
+
+     "."  '(find-file :which-key "find file")
+
+     "b"  '(:ignore t :which-key "buffer")
+     "bb" '(switch-to-buffer :which-key "switch to buffer")
+     "bd" '(kill-buffer :which-key "delete buffer")
+     "bj" '(previous-buffer :which-key "previous buffer")
+     "bk" '(next-buffer :which-key "next buffer")
+     "bl" '(buffer-menu :which-key "buffer menu")
+
+     "n"  '(:ignore t :which-key "org-roam nodes")
+     "nf" '(org-roam-node-find :which-key "find node")
+     "ng" '(org-roam-ui-open :which-key "node graph")
+     "ni" '(org-roam-node-insert :which-key "insert node")
+     "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
+
+     "o"  '(:ignore t :which-key "org-mode commands")
+     "oa" '(org-agenda :which-key "open org-agenda")
+     "oc" '(org-goto-calendar :which-key "open org-calendar")
+     "oe" '(org-export-dispatch :which-key "export to:")
+     "oo" '(org-open-at-point :which-key "open link")
+     "os" '(org-sort :which-key "sort current subtree or list")
+     "oi" '(:ignore t :which-key "insert")
+     "oi." '(org-time-stamp :which-key "insert timestamp")
+     "oid" '(org-deadline :which-key "insert deadline")
+     "oih" '(org-insert-heading :which-key "insert heading")
+     "oil" '(org-insert-link :which-key "insert link")
+     "oip" '(org-set-property :which-key "insert property")
+     "ois" '(org-schedule :which-key "insert schedule")
+     "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
+     "oi," '(org-insert-structure-template :which-key "insert structure")
+  
+     "p"  '(:ignore t :which-key "pomodoro")
+     "pp" '(lambda () (interactive) (org-timer-set-timer 25)) :which-key "start pomodoro"
+     "plb" '(lambda () (interactive) (org-timer-set-timer 15)) :which-key "pomodoro long break"
+     "pb" '(lambda () (interactive) (org-timer-set-timer 5)) :which-key "pomodoro break"
+     "ps"  '(org-timer-stop :which-key "stop pomodoro")
+     "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
+
+     "s"  '(:ignore t :which-key "search")
+     "sg" '(rg-project :which-key "ripgrep project")
+     "so" '(sort-lines :which-key "sort lines")
+     "ss" '(swiper :which-key "swiper")
+
+     "t"  '(:ignore t :which-key "tab")
+     "td" '(tab-close :which-key "close tab")
+     "tj" '(tab-previous :which-key "previous tab")
+     "tk" '(tab-next :which-key "next tab")
+     "tl" '(tab-list :which-key "list of tabs")
+     "tn" '(tab-new :which-key "new tab")
+     "ty" '(tab-new :which-key "duplicate tab")
+  "t TAB" '(tab-recent :which-key "recent tab")
+
+     "w"  '(:ignore t :which-key "window")
+     "wh" '(windmove-left :which-key "move left")
+     "wj" '(windmove-down :which-key "move down")
+     "wk" '(windmove-up :which-key "move up")
+     "wl" '(windmove-right :which-key "move right")
+
+     "h"  '(:ignore t :which-key "help")
+     "hf" '(describe-function :which-key "describe function")
+     "hm" '(man :which-key "manual entries")
+     "hr" '(lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "reload init.el"
+     "ht" '(load-theme :which-key "load theme")
+     "hv" '(describe-variable :which-key "describe variable")
+
+     "vt" '(vterm :which-key "vterm"))
+
+    (my-leader-def
+     :keymaps 'evil-insert-state-map  
+    )
+
+    (my-leader-def
+     :keymaps 'org-mode-map  
+     (kbd "<C-c> <C-t>") #'org-todo)  
+#+END_SRC
+
+* THEME
+** font
+#+BEGIN_SRC emacs-lisp
+   (set-frame-font "iosevka 13" nil t)
+;; (set-frame-font "ms gothic 13" nil t)
+#+END_SRC
+ 
+** theme
+#+BEGIN_SRC emacs-lisp
+  (defun night-mode ()
+    (interactive)
+    (disable-theme 'ef-spring)
+    (load-theme 'doom-tomorrow-night t))
+
+  (defun day-mode ()
+    (interactive)
+    (disable-theme 'doom-tomorrow-night)
+    (load-theme 'ef-spring t))
+
+  (defun toggle-day-night-mode ()
+    (interactive)
+    (let* ((current-time (current-time))
+           (current-hour (nth 2 (decode-time current-time))))
+      (if (or (> current-hour 20) (< current-hour 6))
+          (night-mode)
+        (day-mode))))
+#+END_SRC
+
+* PACKAGES
+** auto-complete
+#+BEGIN_SRC emacs-lisp
+(use-package auto-complete
+    :ensure t
+    :config
+    (ac-config-default))
+#+END_SRC
+
+** flycheck (syntax-checking)
+#+BEGIN_SRC emacs-lisp 
+(use-package flycheck
+     :ensure t)
+#+END_SRC
+
+** elcord (rpc)
+#+BEGIN_SRC emacs-lisp
+(require 'elcord)
+(elcord-mode)
+#+END_SRC
+
+** gcmh (garbage collector)
+#+BEGIN_SRC emacs-lisp
+(gcmh-mode 1)
+#+END_SRC
+
+** keepass
+#+BEGIN_SRC emacs-lisp
+  (use-package keepass-mode
+    :ensure t
+    :config)
+#+END_SRC
+
+** jabber
+#+BEGIN_SRC emacs-lisp
+  (use-package jabber
+      :ensure t)
+  
+  (setq jabber-account-list
+      `((,(getenv "JABBER_USER")
+         (:password . ,(getenv "JABBER_PASSWORD"))
+         (:network-server . ,(getenv "JABBER_SERVER"))
+         (:connection-type . ssl))))
+
+  (setq jabber-auto-reconnect t)
+  (setq jabber-history-enabled t)
+#+END_SRC
+
+** indentation
+#+BEGIN_SRC emacs-lisp
+(use-package aggressive-indent
+    :ensure t
+    :config
+    (global-aggressive-indent-mode t))
+#+END_SRC
+
+** which-key
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config
+    (setq which-key-side-window-location 'bottom) 
+    (setq which-key-max-display-columns nil)
+    (setq which-key-min-display-lines 1)
+    (which-key-mode)
+    (setq which-key-idle-delay 0))
+#+END_SRC
+
+** popup
+#+BEGIN_SRC emacs-lisp
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode))
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
+#+END_SRC
+
+** lsp-mode
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :ensure t
+  :hook ((python-mode . lsp)
+         (c++-mode . lsp)
+         (java-mode . lsp)
+         (js-mode . lsp)
+         (html-mode . lsp)
+         (css-mode . lsp)
+         (go-mode . lsp))  ;; Puedes agregar m??s lenguajes aqu??
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :config
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-doc-enable t
+        lsp-ui-imenu-enable t)
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package company
+  :ensure t
+  :after lsp-mode
+  :config
+  (add-hook 'lsp-mode-hook 'company-mode))
+
+(use-package dap-mode
+  :ensure t
+  :after lsp-mode
+  :config
+  (dap-mode 1)
+  (dap-ui-mode 1))
+#+END_SRC
+
+** company-mode
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+** yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
+#+END_SRC
+
+** magit
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :ensure t)
+#+END_SRC
+
+* LATEX STUFF
+#+BEGIN_SRC emacs-lisp
+(require 'ox-latex)
+
+(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"))
+#+END_SRC
+
+* HOOKS
+** fragtog-mode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'org-fragtog-mode)
+#+END_SRC
+
+* ORG MODE
+** org-modern
+#+BEGIN_SRC emacs-lisp 
+(use-package org-modern
+  :ensure t
+  :hook (org-mode . org-modern-mode))
+#+END_SRC
+
+** org-roam
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :ensure t
+    :init
+    (setq org-roam-v2-ack t)
+    (setq org-roam-graph-executable "dot")
+    :custom
+    (org-roam-directory "~/org")
+    :config
+    (org-roam-setup))
+
+  (defun my/org-roam-node-has-tag (node tag)
+    (member tag (org-roam-node-tags node)))
+
+  (defun my/org-roam-node-find-by-tag ()
+    (interactive)
+    (let ((tag (read-string "Enter tag: ")))
+      (org-roam-node-find nil nil (lambda (node) (my/org-roam-node-has-tag node tag)))))
+
+  (setq org-roam-completion-system 'ido)
+
+  (setq org-roam-capture-templates
+      '(("d" "default" plain "%?"
+         :target (file+head "${slug}.org" "#+options: toc:nil\n#+title: ${title}\n#+created: %<%Y-%m-%d>\n")
+         :unnarrowed t)))
+#+END_SRC
+
+** deft
+#+BEGIN_SRC emacs-lisp
+(setq deft-directory "~/org")
+#+END_SRC
+
+** export to ~/org/exports
+#+BEGIN_SRC emacs-lisp
+  (setq org-publish-project-alist
+  '(("html"
+     :base-directory "~/org/"
+     :base-extension "org"
+     :publishing-directory "~/org/exports"
+     :publishing-function org-html-export-to-html)
+    ("pdf"
+     :base-directory "~/org/"
+     :base-extension "org"
+     :publishing-directory "~/org/exports"
+     :publishing-function org-latex-export-to-pdf)
+    ("all" :components ("html" "pdf"))))
+#+END_SRC
+
+** org-agenda
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files '("~/org"))
+#+END_SRC
