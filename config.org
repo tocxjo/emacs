@@ -4,6 +4,7 @@
 
 * TODO
 - [ ] fix "lambda" showing up in keybindings instead of which-key messages
+
 * MELPA
 #+BEGIN_SRC emacs-lisp
   (require 'package)
@@ -223,6 +224,7 @@
   
      "p"  '(:ignore t :which-key "pomodoro")
      "pp" '(lambda () (interactive) (org-timer-set-timer 25)) :which-key "start pomodoro"
+     "pl"  '(:ignore t :which-key "long break")
      "plb" '(lambda () (interactive) (org-timer-set-timer 15)) :which-key "pomodoro long break"
      "pb" '(lambda () (interactive) (org-timer-set-timer 5)) :which-key "pomodoro break"
      "ps"  '(org-timer-stop :which-key "stop pomodoro")
