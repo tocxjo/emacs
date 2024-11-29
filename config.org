@@ -279,25 +279,28 @@
  
 ** theme
 #+begin_src emacs-lisp
-  (defun night-mode ()
-    (interactive)
-    (disable-theme 'ef-spring)
-    (load-theme 'doom-tomorrow-night t))
+   (setq dark-theme 'doom-tomorrow-night)
+   (setq light-theme 'ef-frost)
 
-  (defun day-mode ()
-    (interactive)
-    (disable-theme 'doom-tomorrow-night)
-    (load-theme 'ef-spring t))
+   (defun night-mode ()
+     (interactive)
+     (disable-theme light-theme)
+     (load-theme dark-theme t))
 
-  (defun toggle-day-night-mode ()
-    (interactive)
-    (let* ((current-time (current-time))
-           (current-hour (nth 2 (decode-time current-time))))
-      (if (or (> current-hour 20) (< current-hour 6))
-          (night-mode)
-        (day-mode))))
+   (defun day-mode ()
+     (interactive)
+     (disable-theme dark-theme)
+     (load-theme light-theme t))
 
-  (toggle-day-night-mode )
+   (defun toggle-day-night-mode ()
+     (interactive)
+     (let* ((current-time (current-time))
+            (current-hour (nth 2 (decode-time current-time))))
+       (if (or (> current-hour 20) (< current-hour 6))
+           (night-mode)
+         (day-mode))))
+
+   (toggle-day-night-mode)
 #+end_src
 
 * packages
