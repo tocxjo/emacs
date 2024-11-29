@@ -358,6 +358,14 @@
   (setq jabber-history-enabled t)
 #+end_src
 
+** smartparens
+#+begin_src emacs-lisp 
+  (use-package smartparens
+    :ensure smartparens
+    :config
+    (require 'smartparens-config))
+#+end_src
+
 ** indentation
 #+begin_src emacs-lisp
 (use-package aggressive-indent

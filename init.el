@@ -9,7 +9,7 @@
  '(jabber-avatar-max-height 5)
  '(jabber-avatar-max-width 5)
  '(package-selected-packages
-   '(magit evil-pdf-tools doom-modeline pomodoro circe keepass jabber flycheck vterm elcord ivy-youtube ytdl elfeed holy-books twittering-mode evil-org evil-collection keepass-mode org-ai org-roam-bibtex org-bullets all-the-icons gptel ssh-deploy gcmh transmission enlight yasnippet magit-p4 magithub ef-themes org-fragtog tron-legacy-theme lsp-mode aggressive-indent marginalia vertico which-key doom-themes org-roam-ui org-roam auto-complete org-modern general evil-leader))
+   '(smartparens magit evil-pdf-tools doom-modeline pomodoro circe keepass jabber flycheck vterm elcord ivy-youtube ytdl elfeed holy-books twittering-mode evil-org evil-collection keepass-mode org-ai org-roam-bibtex org-bullets all-the-icons gptel ssh-deploy gcmh transmission enlight yasnippet magit-p4 magithub ef-themes org-fragtog tron-legacy-theme lsp-mode aggressive-indent marginalia vertico which-key doom-themes org-roam-ui org-roam auto-complete org-modern general evil-leader))
  '(pomodoro-desktop-notification t)
  '(pomodoro-show-number t))
 (custom-set-faces
