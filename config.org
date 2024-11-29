@@ -457,9 +457,10 @@
 
 ** pdf-tools
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'pdf-view-mode-hook
-          (lambda ()
-            (display-line-numbers-mode -1)))
+(add-hook 'pdf-view-mode-hook
+    (lambda ()
+        (display-line-numbers-mode -1)
+        (blink-cursor-mode -1)))
 #+END_SRC
 
 * ORG MODE
