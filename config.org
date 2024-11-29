@@ -247,6 +247,7 @@
      "wj" '(windmove-down :which-key "move down")
      "wk" '(windmove-up :which-key "move up")
      "wl" '(windmove-right :which-key "move right")
+     "wt" '(tear-off-window :which-key "tear off window")
 
      "h"  '(:ignore t :which-key "help")
      "hf" '(describe-function :which-key "describe function")
