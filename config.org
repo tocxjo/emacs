@@ -2,11 +2,12 @@
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
 
-* TODO
+* TODO to-do list
 - [ ] fix "lambda" showing up in keybindings instead of which-key messages
+- [ ] fix splash screen not starting (instead just echoing enlight-ascii-art in a scratch buffer at startup)
 
-* MELPA
-#+BEGIN_SRC emacs-lisp
+* melpa
+#+begin_src emacs-lisp
   (require 'package)
 
   (setq package-archives
@@ -15,10 +16,10 @@
           ("org" . "https://orgmode.org/elpa/")))
 
   (package-initialize)
-#+END_SRC
+#+end_src
 
-* SPLASH SCREEN
-#+BEGIN_SRC emacs-lisp
+* splash screen
+#+begin_src emacs-lisp
   (require 'enlight)
 
   (setq enlight-ascii-art
@@ -80,10 +81,10 @@
 
   (with-eval-after-load 'evil
     (evil-mode 1))
-#+END_SRC
+#+end_src
 
-* EMACS CONFIG
-#+BEGIN_SRC emacs-lisp
+* emacs config
+#+begin_src emacs-lisp
   ;; disable backup files
   (setq make-backup-files nil)
 
@@ -136,10 +137,10 @@
 
   ;; pomodoro sound
   (setq org-clock-sound "clave.wav")
-#+END_SRC
+#+end_src
 
-* EVIL MODE
-#+BEGIN_SRC emacs-lisp
+* evil mode
+#+begin_src emacs-lisp
   (use-package evil
     :ensure t
     :init
@@ -161,16 +162,16 @@
     :ensure t
     :config
     (evil-collection-init))
-  
+
   (require 'evil-org)
   (add-hook 'org-mode-hook 'evil-org-mode)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
-#+END_SRC
+#+end_src
 
-* GENERAL KEYBINDINGS
-#+BEGIN_SRC emacs-lisp
+* general keybindings
+#+begin_src emacs-lisp
     (require 'general)
 
     (general-create-definer my-leader-def
@@ -267,17 +268,17 @@
     (my-leader-def
      :keymaps 'org-mode-map  
      (kbd "<C-c> <C-t>") #'org-todo)  
-#+END_SRC
+#+end_src
 
-* THEME
+* theme
 ** font
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
    (set-frame-font "iosevka 13" nil t)
 ;; (set-frame-font "ms gothic 13" nil t)
-#+END_SRC
+#+end_src
  
 ** theme
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun night-mode ()
     (interactive)
     (disable-theme 'ef-spring)
@@ -297,53 +298,53 @@
         (day-mode))))
 
   (toggle-day-night-mode )
-#+END_SRC
+#+end_src
 
-* PACKAGES
+* packages
 ** pdf-tools
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package pdf-tools
     :ensure t
     :pin manual
     :config
     (pdf-tools-install)
     (setq-default pdf-view-display-size 'fit-width))
-#+END_SRC
+#+end_src
 
 ** auto-complete
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package auto-complete
     :ensure t
     :config
     (ac-config-default))
-#+END_SRC
+#+end_src
 
 ** flycheck (syntax-checking)
-#+BEGIN_SRC emacs-lisp 
+#+begin_src emacs-lisp 
 (use-package flycheck
      :ensure t)
-#+END_SRC
+#+end_src
 
 ** elcord (rpc)
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (require 'elcord)
 (elcord-mode)
-#+END_SRC
+#+end_src
 
 ** gcmh (garbage collector)
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (gcmh-mode 1)
-#+END_SRC
+#+end_src
 
 ** keepass
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package keepass-mode
     :ensure t
     :config)
-#+END_SRC
+#+end_src
 
 ** jabber
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package jabber
       :ensure t)
   
@@ -355,18 +356,18 @@
 
   (setq jabber-auto-reconnect t)
   (setq jabber-history-enabled t)
-#+END_SRC
+#+end_src
 
 ** indentation
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package aggressive-indent
     :ensure t
     :config
     (global-aggressive-indent-mode t))
-#+END_SRC
+#+end_src
 
 ** which-key
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :config
@@ -375,10 +376,10 @@
     (setq which-key-min-display-lines 1)
     (which-key-mode)
     (setq which-key-idle-delay 0))
-#+END_SRC
+#+end_src
 
 ** popup
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package vertico
   :ensure t
   :init
@@ -388,10 +389,10 @@
   :ensure t
   :init
   (marginalia-mode))
-#+END_SRC
+#+end_src
 
 ** lsp-mode
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package lsp-mode
   :ensure t
   :hook ((python-mode . lsp)
@@ -424,61 +425,61 @@
   :config
   (dap-mode 1)
   (dap-ui-mode 1))
-#+END_SRC
+#+end_src
 
 ** company-mode
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package company
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
-#+END_SRC
+#+end_src
 
 ** yasnippet
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package yasnippet
   :ensure t
   :config
   (yas-global-mode 1))
-#+END_SRC
+#+end_src
 
 ** magit
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package magit
   :ensure t)
-#+END_SRC
+#+end_src
 
-* LATEX STUFF
-#+BEGIN_SRC emacs-lisp
+* latex stuff
+#+begin_src emacs-lisp
 (require 'ox-latex)
 
 (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"))
-#+END_SRC
+#+end_src
 
-* HOOKS
+* hooks
 ** fragtog-mode
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (add-hook 'org-mode-hook 'org-fragtog-mode)
-#+END_SRC
+#+end_src
 
 ** pdf-tools
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (add-hook 'pdf-view-mode-hook
     (lambda ()
         (display-line-numbers-mode -1)
         (blink-cursor-mode -1)))
-#+END_SRC
+#+end_src
 
-* ORG MODE
+* org mode
 ** org-modern
-#+BEGIN_SRC emacs-lisp 
+#+begin_src emacs-lisp 
 (use-package org-modern
   :ensure t
   :hook (org-mode . org-modern-mode))
-#+END_SRC
+#+end_src
 
 ** org-roam
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package org-roam
     :ensure t
     :init
@@ -503,15 +504,15 @@
       '(("d" "default" plain "%?"
          :target (file+head "${slug}.org" "#+options: toc:nil\n#+title: ${title}\n#+created: %<%Y-%m-%d>\n")
          :unnarrowed t)))
-#+END_SRC
+#+end_src
 
 ** deft
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq deft-directory "~/org")
-#+END_SRC
+#+end_src
 
 ** export to ~/org/exports
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-publish-project-alist
   '(("html"
      :base-directory "~/org/"
@@ -524,15 +525,15 @@
      :publishing-directory "~/org/exports"
      :publishing-function org-latex-export-to-pdf)
     ("all" :components ("html" "pdf"))))
-#+END_SRC
+#+end_src
 
 ** org-agenda
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq org-agenda-files '("~/org"))
-#+END_SRC
+#+end_src
 
-* DIRECTORY SHORTCUTS
-#+BEGIN_SRC emacs-lisp
+* directory shortcuts
+#+begin_src emacs-lisp
   (setq directories
   '((proj . "~/projects/")
     (docs . "~/documents/")
@@ -548,4 +549,4 @@
         (let ((file (read-file-name "select file: " dir)))
           (find-file file))
       (message "directory not found"))))
-#+END_SRC
+#+end_src
