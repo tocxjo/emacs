@@ -2,6 +2,8 @@
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
 
+* TODO
+- [ ] fix "lambda" showing up in keybindings instead of which-key messages
 * MELPA
 #+BEGIN_SRC emacs-lisp
   (require 'package)
@@ -179,7 +181,7 @@
      :keymaps 'evil-normal-state-map  
      "f"  '(:ignore t :which-key "file")
      "fc" '(compile :which-key "compile file")
-     "fd" '(dired :which-key "launch dired")
+     "fd" '(find-file-in-directory :which-key "find file in directory")
      "ff" '(find-file :which-key "find file")
      "fp" '(lambda () (interactive) (find-file "~/.emacs.d/config.org") :which-key "open config.org")
      "fr" '(recentf-open-files :which-key "recent files")
@@ -287,9 +289,21 @@
       (if (or (> current-hour 20) (< current-hour 6))
           (night-mode)
         (day-mode))))
+
+  (toggle-day-night-mode )
 #+END_SRC
 
 * PACKAGES
+** pdf-tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :pin manual
+    :config
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-width))
+#+END_SRC
+
 ** auto-complete
 #+BEGIN_SRC emacs-lisp
 (use-package auto-complete
@@ -380,7 +394,7 @@
          (js-mode . lsp)
          (html-mode . lsp)
          (css-mode . lsp)
-         (go-mode . lsp))  ;; Puedes agregar m??s lenguajes aqu??
+         (go-mode . lsp))
   :commands lsp)
 
 (use-package lsp-ui
@@ -439,6 +453,13 @@
 ** fragtog-mode
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'org-fragtog-mode)
+#+END_SRC
+
+** pdf-tools
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'pdf-view-mode-hook
+          (lambda ()
+            (display-line-numbers-mode -1)))
 #+END_SRC
 
 * ORG MODE
@@ -501,4 +522,23 @@
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files '("~/org"))
+#+END_SRC
+
+* DIRECTORY SHORTCUTS
+#+BEGIN_SRC emacs-lisp
+  (setq directories
+  '((proj . "~/projects/")
+    (docs . "~/documents/")
+    (books . "f:/books/")
+    (org . "~/org/")
+    (downloads . "~/downloads/")))
+  
+  (defun find-file-in-directory (alias)
+  (interactive
+   (list (intern (completing-read "choose directory: " (mapcar (lambda (pair) (symbol-name (car pair))) directories)))))
+  (let ((dir (cdr (assoc alias directories))))
+    (if dir
+        (let ((file (read-file-name "select file: " dir)))
+          (find-file file))
+      (message "directory not found"))))
 #+END_SRC
