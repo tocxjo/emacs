@@ -4,7 +4,6 @@
 
 * TODO to-do list
 - [ ] fix "lambda" showing up in keybindings instead of which-key messages
-- [ ] fix splash screen not starting (instead just echoing enlight-ascii-art in a scratch buffer at startup)
 
 * melpa
 #+begin_src emacs-lisp
@@ -20,67 +19,53 @@
 
 * splash screen
 #+begin_src emacs-lisp
-  (require 'enlight)
+  ;;(defvar enlight-ascii
+  ;;  (propertize
+  ;;    "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⢉⣐⣦⣄⣤⣤⣤⣤⣤⣄⣀⡀⠠⠭⠉⣛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⢀⣠⠤⠶⠖⣛⣩⣭⣥⣶⣶⣶⣶⣶⡦⠤⢨⣭⣍⣛⡓⠶⣬⣄⡂⠍⡛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠀⣠⠔⢊⣩⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣰⡏⣽⣿⣷⠘⣿⣷⣶⣬⣙⠳⢦⣀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⣠⠔⣋⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠙⢧⣌⠛⠛⣠⣿⣿⣿⣿⣿⣿⣦⣍⠓⢦⣀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⡿⠋⠀⡠⠚⣡⣾⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⡛⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣍⠳⣄⡀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⠟⠀⣠⠎⣴⣾⣿⣿⣿⣿⢡⣿⣿⣿⠿⠟⣛⣛⣛⣋⡛⠟⣛⣉⣍⣙⡛⠦⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠻⣿⣷⣈⠻⢦⡀⠙⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⠏⠀⡀⠳⢄⠙⠿⣿⣿⣟⢿⡾⢛⣩⠤⣶⣿⣿⠿⢋⣥⣶⣿⣿⣿⣿⣿⣿⣷⣄⠙⠻⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶⡌⢫⣄⡀⠑⢄⠈⠻⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⠃⠀⣶⡇⢠⣄⠈⠒⢌⡙⠟⣩⣴⣋⣵⣾⣿⠟⣡⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣽⣿⣷⣶⡬⠙⠻⣿⣿⠗⣞⡿⢿⣧⠠⢹⣿⠀⠌⠳⡀⠘⢿⣿⣿⣿
+  ;;     ⣿⣿⣶⠄⢨⠐⣿⣿⣿⣶⠄⢀⣼⣿⠿⢿⣿⡟⢡⠶⣶⣭⢭⣭⣛⣻⠿⣿⣿⣿⣿⡿⢩⣿⣿⣿⣿⡡⠶⢿⣷⣌⡁⢾⣿⣿⡜⣏⠒⠛⠋⣴⢻⡆⡘⢆⠈⢿⣿⣿
+  ;;     ⣿⣿⠃⣴⣿⣦⠸⣿⣿⠋⣰⡿⢋⣴⣾⣿⣿⢃⣾⣿⢛⠃⣶⣶⣮⣭⡿⢣⣾⡿⢋⢀⡟⣿⣿⣿⣿⣿⣿⣦⣍⣻⣿⣦⠙⢿⡷⣸⠇⡞⠇⠙⠀⠀⠗⠘⡆⠀⢻⣿
+  ;;     ⣿⣿⣧⡉⠙⢁⣼⣿⠇⣼⠏⣴⣿⣿⣿⣿⠃⣾⣿⡏⠈⣸⣿⣿⣿⡿⢡⣿⡟⣡⡿⢸⠇⣿⡇⣿⡿⣿⣿⣿⣿⣿⣿⣿⣷⣌⢋⡳⠃⠙⠊⣀⠤⠒⠊⣡⣄⠠⣾⣿
+  ;;     ⣿⣿⠏⣠⣤⡌⢿⣿⢠⡏⣼⣿⣿⣿⢫⠏⠀⣭⣭⠁⠀⡛⢿⣿⣿⠇⣾⡟⣰⡿⠇⠻⠀⠿⣷⡘⣿⣿⣿⣿⠿⠿⣿⣿⣿⣿⣆⠠⠔⠚⢉⣀⣤⣶⡀⠻⡿⠀⣿⣿
+  ;;     ⣿⡏⣰⣿⣿⣿⡄⣿⢸⢰⣿⣿⣿⣿⠠⢠⣧⠙⠿⠰⡇⢿⠾⠹⣿⠀⢻⢠⣿⣶⣷⠸⢰⡘⣶⣦⡈⠻⣿⣿⠘⣷⣦⡙⢿⣿⣿⣆⠀⣾⣿⣿⣿⣿⣷⡄⣇⠸⣿⣿
+  ;;     ⣿⡇⣿⣿⣿⡿⠃⣿⡈⠘⣿⣿⣿⣿⠀⠈⣠⠴⠒⠂⣄⠀⣴⣶⣈⡸⡌⢸⣿⡿⠛⠃⠀⠳⠌⠻⣧⡐⢼⣿⣷⣼⣿⣿⣆⢻⣿⣿⡆⠸⣿⣿⣿⣿⡟⠀⣿⡷⢘⣿
+  ;;     ⡿⠃⠻⠛⠛⣡⣾⣿⣧⡀⢹⣿⣿⡿⠀⣾⡏⣤⣤⠘⠏⢡⣿⣿⣿⣿⣿⣿⣯⠔⠈⠉⢉⣶⣄⠀⢈⡛⠌⠻⣿⣿⣿⣿⣿⠈⣿⣿⣿⠀⢻⣿⣿⣿⣷⡄⢹⢁⣼⣿
+  ;;     ⣿⣿⣿⣶⣾⣿⣿⣿⡿⠋⣠⣴⣿⠇⢸⣿⠀⣏⠛⠃⠀⣸⣿⣿⣿⣿⣿⣿⡇⢰⣿⡇⡈⠛⢹⣷⡀⢻⡄⣷⣬⡙⠻⠿⠟⣠⣿⣿⣿⡇⢸⣿⣿⣿⡟⣡⣶⣌⢻⣿
+  ;;     ⣿⣿⣿⣿⣿⣿⣿⡏⢰⣿⣿⣿⠃⡴⣿⢿⣧⡘⠛⠃⣠⣿⣿⣿⣿⣿⣿⣿⡇⢸⣌⣙⣛⠂⣸⣿⡇⢸⡇⣿⡟⣻⣿⣶⣿⣿⣿⣿⣿⠃⣼⣿⣿⡿⢰⣿⣿⣿⣆⢻
+  ;;     ⣿⣿⣿⣿⣿⡿⠃⠀⣿⣿⣿⡏⣠⠠⢁⢂⠂⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡉⣉⣉⡴⣿⣿⣥⣿⠇⠟⣈⡻⣿⣿⣿⣿⣿⣿⡟⢠⣿⣿⣿⡇⢸⣿⣿⣿⡿⢸
+  ;;     ⣿⣿⣿⣿⡿⠀⣾⡆⢻⣿⣿⡇⣿⣦⣤⣦⣦⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡐⡐⡐⡄⠈⢿⣿⣟⣠⡾⢛⢻⡌⣿⣿⣿⣿⡿⠀⣾⣿⣿⣿⣷⠈⢿⣿⠿⢡⣿
+  ;;     ⣿⣿⣿⣿⣇⠀⢉⣡⣿⠟⠻⣧⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣘⣀⣈⣵⣿⣿⠒⣋⡾⢁⣿⣿⣿⡿⠀⣾⣿⣿⣿⣿⣿⣿⡆⢡⣶⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⣷⣤⡈⣤⣤⣾⡿⢱⣌⠻⣿⣿⣿⣿⣿⣇⠠⣶⣶⣶⡭⢉⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⣛⣛⣩⣴⣿⣿⣿⡿⢡⠀⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⣿⣿⣷⣄⠉⠛⢡⣿⣿⣷⣬⣙⠻⠿⣿⣿⣶⣬⣭⣥⣶⣿⣿⣿⣿⣿⣿⣿⡿⠟⣩⣴⣿⣿⣿⣿⡟⣹⣿⣿⠃⣿⣷⣄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⣿⡿⠟⢛⣉⡄⢰⣿⣿⣿⣿⢹⣿⣿⣶⡦⠉⠙⣛⠻⠿⣿⣿⠿⠿⠛⡛⢉⣁⠲⠿⣿⣿⣿⣿⣿⠏⣴⣿⣿⣿⡸⣿⣿⣿⣷⡌⠻⢿⣿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⣿⠏⣡⣾⣿⣯⣾⣿⣿⣿⣿⠇⣾⣿⡿⢁⠲⡛⢷⣌⠙⡵⢸⢁⠤⢖⣋⠤⢿⡿⠟⣃⡀⢻⣿⣿⣿⢸⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣦⠈⢿⣿⣿⣿⣿⣿⣿
+  ;;     ⣿⣿⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⠿⢃⢾⣿⡿⢁⣾⠦⣠⣅⡠⠨⠅⠙⠂⠨⠡⠠⡬⣠⡀⣾⣿⣿⡈⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢿⣿⣿⣿⣿⣿"
+  ;;    :face :weight normal :read-only t))
 
-  (setq enlight-ascii-art
- "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⢉⣐⣦⣄⣤⣤⣤⣤⣤⣄⣀⡀⠠⠭⠉⣛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⢀⣠⠤⠶⠖⣛⣩⣭⣥⣶⣶⣶⣶⣶⡦⠤⢨⣭⣍⣛⡓⠶⣬⣄⡂⠍⡛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠀⣠⠔⢊⣩⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣰⡏⣽⣿⣷⠘⣿⣷⣶⣬⣙⠳⢦⣀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⣠⠔⣋⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠙⢧⣌⠛⠛⣠⣿⣿⣿⣿⣿⣿⣦⣍⠓⢦⣀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⡿⠋⠀⡠⠚⣡⣾⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⡛⠶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣍⠳⣄⡀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⠟⠀⣠⠎⣴⣾⣿⣿⣿⣿⢡⣿⣿⣿⠿⠟⣛⣛⣛⣋⡛⠟⣛⣉⣍⣙⡛⠦⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠻⣿⣷⣈⠻⢦⡀⠙⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⠏⠀⡀⠳⢄⠙⠿⣿⣿⣟⢿⡾⢛⣩⠤⣶⣿⣿⠿⢋⣥⣶⣿⣿⣿⣿⣿⣿⣷⣄⠙⠻⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶⡌⢫⣄⡀⠑⢄⠈⠻⣿⣿⣿⣿⣿
-  ⣿⣿⠃⠀⣶⡇⢠⣄⠈⠒⢌⡙⠟⣩⣴⣋⣵⣾⣿⠟⣡⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣽⣿⣷⣶⡬⠙⠻⣿⣿⠗⣞⡿⢿⣧⠠⢹⣿⠀⠌⠳⡀⠘⢿⣿⣿⣿
-  ⣿⣿⣶⠄⢨⠐⣿⣿⣿⣶⠄⢀⣼⣿⠿⢿⣿⡟⢡⠶⣶⣭⢭⣭⣛⣻⠿⣿⣿⣿⣿⡿⢩⣿⣿⣿⣿⡡⠶⢿⣷⣌⡁⢾⣿⣿⡜⣏⠒⠛⠋⣴⢻⡆⡘⢆⠈⢿⣿⣿
-  ⣿⣿⠃⣴⣿⣦⠸⣿⣿⠋⣰⡿⢋⣴⣾⣿⣿⢃⣾⣿⢛⠃⣶⣶⣮⣭⡿⢣⣾⡿⢋⢀⡟⣿⣿⣿⣿⣿⣿⣦⣍⣻⣿⣦⠙⢿⡷⣸⠇⡞⠇⠙⠀⠀⠗⠘⡆⠀⢻⣿
-  ⣿⣿⣧⡉⠙⢁⣼⣿⠇⣼⠏⣴⣿⣿⣿⣿⠃⣾⣿⡏⠈⣸⣿⣿⣿⡿⢡⣿⡟⣡⡿⢸⠇⣿⡇⣿⡿⣿⣿⣿⣿⣿⣿⣿⣷⣌⢋⡳⠃⠙⠊⣀⠤⠒⠊⣡⣄⠠⣾⣿
-  ⣿⣿⠏⣠⣤⡌⢿⣿⢠⡏⣼⣿⣿⣿⢫⠏⠀⣭⣭⠁⠀⡛⢿⣿⣿⠇⣾⡟⣰⡿⠇⠻⠀⠿⣷⡘⣿⣿⣿⣿⠿⠿⣿⣿⣿⣿⣆⠠⠔⠚⢉⣀⣤⣶⡀⠻⡿⠀⣿⣿
-  ⣿⡏⣰⣿⣿⣿⡄⣿⢸⢰⣿⣿⣿⣿⠠⢠⣧⠙⠿⠰⡇⢿⠾⠹⣿⠀⢻⢠⣿⣶⣷⠸⢰⡘⣶⣦⡈⠻⣿⣿⠘⣷⣦⡙⢿⣿⣿⣆⠀⣾⣿⣿⣿⣿⣷⡄⣇⠸⣿⣿
-  ⣿⡇⣿⣿⣿⡿⠃⣿⡈⠘⣿⣿⣿⣿⠀⠈⣠⠴⠒⠂⣄⠀⣴⣶⣈⡸⡌⢸⣿⡿⠛⠃⠀⠳⠌⠻⣧⡐⢼⣿⣷⣼⣿⣿⣆⢻⣿⣿⡆⠸⣿⣿⣿⣿⡟⠀⣿⡷⢘⣿
-  ⡿⠃⠻⠛⠛⣡⣾⣿⣧⡀⢹⣿⣿⡿⠀⣾⡏⣤⣤⠘⠏⢡⣿⣿⣿⣿⣿⣿⣯⠔⠈⠉⢉⣶⣄⠀⢈⡛⠌⠻⣿⣿⣿⣿⣿⠈⣿⣿⣿⠀⢻⣿⣿⣿⣷⡄⢹⢁⣼⣿
-  ⣿⣿⣿⣶⣾⣿⣿⣿⡿⠋⣠⣴⣿⠇⢸⣿⠀⣏⠛⠃⠀⣸⣿⣿⣿⣿⣿⣿⡇⢰⣿⡇⡈⠛⢹⣷⡀⢻⡄⣷⣬⡙⠻⠿⠟⣠⣿⣿⣿⡇⢸⣿⣿⣿⡟⣡⣶⣌⢻⣿
-  ⣿⣿⣿⣿⣿⣿⣿⡏⢰⣿⣿⣿⠃⡴⣿⢿⣧⡘⠛⠃⣠⣿⣿⣿⣿⣿⣿⣿⡇⢸⣌⣙⣛⠂⣸⣿⡇⢸⡇⣿⡟⣻⣿⣶⣿⣿⣿⣿⣿⠃⣼⣿⣿⡿⢰⣿⣿⣿⣆⢻
-  ⣿⣿⣿⣿⣿⡿⠃⠀⣿⣿⣿⡏⣠⠠⢁⢂⠂⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡉⣉⣉⡴⣿⣿⣥⣿⠇⠟⣈⡻⣿⣿⣿⣿⣿⣿⡟⢠⣿⣿⣿⡇⢸⣿⣿⣿⡿⢸
-  ⣿⣿⣿⣿⡿⠀⣾⡆⢻⣿⣿⡇⣿⣦⣤⣦⣦⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡐⡐⡐⡄⠈⢿⣿⣟⣠⡾⢛⢻⡌⣿⣿⣿⣿⡿⠀⣾⣿⣿⣿⣷⠈⢿⣿⠿⢡⣿
-  ⣿⣿⣿⣿⣇⠀⢉⣡⣿⠟⠻⣧⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣘⣀⣈⣵⣿⣿⠒⣋⡾⢁⣿⣿⣿⡿⠀⣾⣿⣿⣿⣿⣿⣿⡆⢡⣶⣿⣿
-  ⣿⣿⣿⣿⣿⣷⣤⡈⣤⣤⣾⡿⢱⣌⠻⣿⣿⣿⣿⣿⣇⠠⣶⣶⣶⡭⢉⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⣛⣛⣩⣴⣿⣿⣿⡿⢡⠀⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣷⣄⠉⠛⢡⣿⣿⣷⣬⣙⠻⠿⣿⣿⣶⣬⣭⣥⣶⣿⣿⣿⣿⣿⣿⣿⡿⠟⣩⣴⣿⣿⣿⣿⡟⣹⣿⣿⠃⣿⣷⣄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⡿⠟⢛⣉⡄⢰⣿⣿⣿⣿⢹⣿⣿⣶⡦⠉⠙⣛⠻⠿⣿⣿⠿⠿⠛⡛⢉⣁⠲⠿⣿⣿⣿⣿⣿⠏⣴⣿⣿⣿⡸⣿⣿⣿⣷⡌⠻⢿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⠏⣡⣾⣿⣯⣾⣿⣿⣿⣿⠇⣾⣿⡿⢁⠲⡛⢷⣌⠙⡵⢸⢁⠤⢖⣋⠤⢿⡿⠟⣃⡀⢻⣿⣿⣿⢸⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣦⠈⢿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⠿⢃⢾⣿⡿⢁⣾⠦⣠⣅⡠⠨⠅⠙⠂⠨⠡⠠⡬⣠⡀⣾⣿⣿⡈⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢿⣿⣿⣿⣿⣿")
+  (use-package enlight
+    :custom
+     (enlight-content
+     (concat
+         (with-temp-buffer
+            (insert-image (create-image (expand-file-name "splash-image.png" user-emacs-directory)))
+            (buffer-string))
+         "\n\n"
+         (enlight-menu
+         '(("Org Mode"
+         ("Org-Agenda (current day)" (org-agenda nil "a") "SPC o a"))
+           ("Downloads"
+         ("Transmission" transmission "t")
+         ("Downloads folder" (dired "~/Downloads") "a"))
+           ("Other"
+         ("Projects" project-switch-project "C-x p p")))))))
 
-  (defun enlight-open-org-agenda ()
-    (interactive)
-    (org-agenda))
-
-  (defun enlight-open-org-roam ()
-    (interactive)
-    (org-roam-node-find))
-
-  (defun enlight-open-calendar ()
-    (interactive)
-    (calendar))
-
-  (setq enlight-buttons
-        '((:label "org agenda" :action enlight-open-org-agenda)
-          (:label "org roam" :action enlight-open-org-roam)
-          (:label "calendar" :action enlight-open-calendar)))
-
-  (defun enlight-create-screen (&rest _)
-    (erase-buffer)
-    (insert enlight-ascii-art)
-    (goto-char (point-min)))
-
-  (defun enlight-custom-splash ()
-    (enlight-create-screen
-     :title "welcome fag"
-     :ascii enlight-ascii-art
-     :buttons enlight-buttons))
-
-  (setq initial-buffer-choice #'enlight-custom-splash)
-
-  (with-eval-after-load 'evil
-    (evil-mode 1))
+   (setopt initial-buffer-choice #'enlight)
 #+end_src
 
 * emacs config
@@ -137,6 +122,12 @@
 
   ;; pomodoro sound
   (setq org-clock-sound "clave.wav")
+
+  ;; tramp stuff
+  (setq tramp-default-method "ssh")
+  (setq tramp-verbose 10)
+  (setq tramp-ssh-controlmaster-options
+      "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
 #+end_src
 
 * evil mode
@@ -171,8 +162,33 @@
 #+end_src
 
 * general keybindings
+** creating functions for keybindings
 #+begin_src emacs-lisp
-    (require 'general)
+  (defun pomodoro-start ()
+    (interactive)
+    (org-timer-set-timer 25))
+
+  (defun pomodoro-long-break ()
+    (interactive)
+    (org-timer-set-timer 15))
+
+  (defun goto-config ()
+    (interactive)
+    (find-file (expand-file-name "config.org" user-emacs-directory)))
+
+  (defun pomodoro-break ()
+    (interactive)
+    (org-timer-set-timer 5)) 
+
+  (defun reload-config ()
+    (interactive)
+    (load-file (expand-file-name "init.el" user-emacs-directory)))
+#+end_src
+
+** define keybindings
+#+begin_src emacs-lisp
+    (use-package general
+      :ensure t)
 
     (general-create-definer my-leader-def
       :prefix "SPC"
@@ -188,8 +204,8 @@
      "fc" '(compile :which-key "compile file")
      "fd" '(find-file-in-directory :which-key "find file in directory")
      "ff" '(find-file :which-key "find file")
-     "fp" '(lambda () (interactive) (find-file "~/.emacs.d/config.org") :which-key "open config.org")
-     "fr" '(recentf-open-files :which-key "recent files")
+     "fp" '(goto-config :which-key "open config.org")
+     "fr" '(recentf :which-key "recent files")
      "fs" '(save-buffer :which-key "save file")
 
      "."  '(find-file :which-key "find file")
@@ -206,6 +222,7 @@
      "ng" '(org-roam-ui-open :which-key "node graph")
      "ni" '(org-roam-node-insert :which-key "insert node")
      "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
+     "nt" '(org-roam-tag-add :which-key "add tag")
 
      "o"  '(:ignore t :which-key "org-mode commands")
      "oa" '(org-agenda :which-key "open org-agenda")
@@ -222,12 +239,11 @@
      "ois" '(org-schedule :which-key "insert schedule")
      "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
      "oi," '(org-insert-structure-template :which-key "insert structure")
-  
-     "p"  '(:ignore t :which-key "pomodoro")
-     "pp" '(lambda () (interactive) (org-timer-set-timer 25)) :which-key "start pomodoro"
+     "p"   '(:ignore t :which-key "pomodoro")
+     "pp"  '(pomodoro-start :which-key "start pomodoro")
      "pl"  '(:ignore t :which-key "long break")
-     "plb" '(lambda () (interactive) (org-timer-set-timer 15)) :which-key "pomodoro long break"
-     "pb" '(lambda () (interactive) (org-timer-set-timer 5)) :which-key "pomodoro break"
+     "plb" '(pomodoro-long-break :which-key "pomodoro long break")
+     "pb"  '(pomodoro-break :which-key "pomodoro break")
      "ps"  '(org-timer-stop :which-key "stop pomodoro")
      "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
 
@@ -255,7 +271,7 @@
      "h"  '(:ignore t :which-key "help")
      "hf" '(describe-function :which-key "describe function")
      "hm" '(man :which-key "manual entries")
-     "hr" '(lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "reload init.el"
+     "hr" '(reload-config :which-key "reload init.el")
      "ht" '(load-theme :which-key "load theme")
      "hv" '(describe-variable :which-key "describe variable")
 
@@ -279,32 +295,37 @@
  
 ** theme
 #+begin_src emacs-lisp
-   (setq dark-theme 'doom-tomorrow-night)
-   (setq light-theme 'ef-frost)
+  (require 'doom-themes)
+  (require 'ef-themes)
 
-   (defun night-mode ()
-     (interactive)
-     (disable-theme light-theme)
-     (load-theme dark-theme t))
+  (setq dark-theme 'doom-tomorrow-night)
+  (setq light-theme 'ef-frost)
 
-   (defun day-mode ()
-     (interactive)
-     (disable-theme dark-theme)
-     (load-theme light-theme t))
+  (defun night-mode ()
+    (interactive)
+    (disable-theme light-theme)
+    (add-hook 'pdf-view-mode 'pdf-view-midnight-minor-mode t)
+    (load-theme dark-theme t))
 
-   (defun toggle-day-night-mode ()
-     (interactive)
-     (let* ((current-time (current-time))
-            (current-hour (nth 2 (decode-time current-time))))
-       (if (or (> current-hour 20) (< current-hour 6))
-           (night-mode)
-         (day-mode))))
+  (defun day-mode ()
+    (interactive)
+    (disable-theme dark-theme)
+    (add-hook 'pdf-view-mode 'pdf-view-midnight-minor-mode nil)
+    (load-theme light-theme t))
 
-   (toggle-day-night-mode)
+  (defun toggle-day-night-mode ()
+    (interactive)
+    (let* ((current-time (current-time))
+           (current-hour (nth 2 (decode-time current-time))))
+      (if (or (> current-hour 20) (< current-hour 6))
+          (night-mode)
+        (day-mode))))
+
+  (toggle-day-night-mode)
 #+end_src
 
 * packages
-** pdf-tools
+** pdf
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :ensure t
@@ -312,6 +333,11 @@
     :config
     (pdf-tools-install)
     (setq-default pdf-view-display-size 'fit-width))
+
+  (use-package pdf-view-restore
+  :after pdf-tools
+  :config
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 #+end_src
 
 ** auto-complete
@@ -330,13 +356,14 @@
 
 ** elcord (rpc)
 #+begin_src emacs-lisp
-(require 'elcord)
-(elcord-mode)
+  (require 'elcord)
+  (elcord-mode)
 #+end_src
 
 ** gcmh (garbage collector)
 #+begin_src emacs-lisp
-(gcmh-mode 1)
+  (require 'gcmh)
+  (gcmh-mode 1)
 #+end_src
 
 ** keepass
@@ -460,6 +487,14 @@
   :ensure t)
 #+end_src
 
+** orderless
+#+begin_src emacs-lisp
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+#+end_src
 * latex stuff
 #+begin_src emacs-lisp
 (require 'ox-latex)
@@ -468,9 +503,11 @@
 #+end_src
 
 * hooks
-** fragtog-mode
+** org-mode
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'org-fragtog-mode)
+  (require 'org-fragtog)
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  (add-hook 'org-mode-hook 'org-display-inline-images)
 #+end_src
 
 ** pdf-tools
@@ -519,7 +556,8 @@
 
 ** deft
 #+begin_src emacs-lisp
-(setq deft-directory "~/org")
+  (require 'deft)
+  (setq deft-directory "~/org")
 #+end_src
 
 ** export to ~/org/exports
