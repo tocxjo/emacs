@@ -2,7 +2,7 @@
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
 
-* melpa
+* MELPA
 #+begin_src emacs-lisp
   (require 'package)
 
@@ -14,7 +14,7 @@
   (package-initialize)
 #+end_src
 
-* splash screen
+* SPLASH SCREEN
 #+begin_src emacs-lisp
   ;;(defvar enlight-ascii
   ;;  (propertize
@@ -65,7 +65,7 @@
    (setopt initial-buffer-choice #'enlight)
 #+end_src
 
-* emacs config
+* EMACS CONFIG
 #+begin_src emacs-lisp
   ;; disable backup files
   (setq make-backup-files nil)
@@ -127,7 +127,7 @@
       "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
 #+end_src
 
-* evil mode
+* EVIL MODE
 #+begin_src emacs-lisp
   (use-package evil
     :ensure t
@@ -158,7 +158,7 @@
   (evil-org-agenda-set-keys)
 #+end_src
 
-* general keybindings
+* GENERAL KEYBINDINGS
 ** creating functions for keybindings
 #+begin_src emacs-lisp
   (defun pomodoro-start ()
@@ -283,7 +283,7 @@
      (kbd "<C-c> <C-t>") #'org-todo)  
 #+end_src
 
-* theme
+* THEME
 ** font
 #+begin_src emacs-lisp
    (set-frame-font "iosevka 13" nil t)
@@ -321,7 +321,7 @@
   (toggle-day-night-mode)
 #+end_src
 
-* packages
+* PACKAGES
 ** pdf
 #+begin_src emacs-lisp
   (use-package pdf-tools
@@ -493,14 +493,14 @@
     (completion-styles '(orderless basic))
     (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
-* latex stuff
+* LATEX STUFF
 #+begin_src emacs-lisp
-(require 'ox-latex)
-
-(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"))
+  (require 'ox-latex)
+  
+  (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"))
 #+end_src
 
-* hooks
+* HOOKS
 ** org-mode
 #+begin_src emacs-lisp
   (require 'org-fragtog)
@@ -516,7 +516,7 @@
         (blink-cursor-mode -1)))
 #+end_src
 
-* org mode
+* ORG MODE
 ** org-modern
 #+begin_src emacs-lisp 
 (use-package org-modern
@@ -579,7 +579,7 @@
 (setq org-agenda-files '("~/org"))
 #+end_src
 
-* directory shortcuts
+* DIRECTORY SHORTCUTS
 #+begin_src emacs-lisp
   (setq directories
   '((proj . "~/projects/")
