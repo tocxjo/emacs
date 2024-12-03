@@ -394,6 +394,7 @@
     :ensure smartparens
     :config
     (require 'smartparens-config))
+  (smartparens-mode t)
 #+end_src
 
 ** indentation
