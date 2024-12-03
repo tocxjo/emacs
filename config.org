@@ -2,9 +2,6 @@
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
 
-* TODO to-do list
-- [ ] fix "lambda" showing up in keybindings instead of which-key messages
-
 * melpa
 #+begin_src emacs-lisp
   (require 'package)
