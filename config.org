@@ -1,7 +1,6 @@
 #+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 #+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
-
 * MELPA
 #+begin_src emacs-lisp
   (require 'package)
@@ -125,6 +124,9 @@
   (setq tramp-verbose 10)
   (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
+
+  ;; prettify symbols
+  (global-prettify-symbols-mode 1)
 #+end_src
 
 * EVIL MODE
@@ -517,13 +519,6 @@
 #+end_src
 
 * ORG MODE
-** org-modern
-#+begin_src emacs-lisp 
-(use-package org-modern
-  :ensure t
-  :hook (org-mode . org-modern-mode))
-#+end_src
-
 ** org-roam
 #+begin_src emacs-lisp
   (use-package org-roam
