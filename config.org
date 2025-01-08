@@ -1,6 +1,10 @@
 #+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
-#+PROPERTY: header-args:elisp :tangle ~/.emacs.d/init.el
+#+BEGIN_SRC emacs-lisp
+(setq org-babel-default-header-args:elisp
+      `((:tangle . ,(expand-file-name "init.el" user-emacs-directory))))
+#+END_SRC
+
 * MELPA
 #+begin_src emacs-lisp
   (require 'package)
