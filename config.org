@@ -159,10 +159,10 @@
     :config
     (evil-collection-init))
 
-  (require 'evil-org)
+  (use-package 'evil-org)
   (add-hook 'org-mode-hook 'evil-org-mode)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-  (require 'evil-org-agenda)
+  (use-package 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 #+end_src
 
@@ -300,8 +300,8 @@
  
 ** theme
 #+begin_src emacs-lisp
-  (require 'doom-themes)
-  (require 'ef-themes)
+  (use-package 'doom-themes)
+  (use-package 'ef-themes)
 
   (setq dark-theme 'doom-tomorrow-night)
   (setq light-theme 'ef-frost)
@@ -361,13 +361,13 @@
 
 ** elcord (rpc)
 #+begin_src emacs-lisp
-  (require 'elcord)
+  (use-package 'elcord)
   (elcord-mode)
 #+end_src
 
 ** gcmh (garbage collector)
 #+begin_src emacs-lisp
-  (require 'gcmh)
+  (use-package 'gcmh)
   (gcmh-mode 1)
 #+end_src
 
@@ -398,7 +398,7 @@
   (use-package smartparens
     :ensure smartparens
     :config
-    (require 'smartparens-config))
+    (use-package 'smartparens-config))
   (smartparens-mode t)
 #+end_src
 
@@ -503,7 +503,7 @@
 #+end_src
 * LATEX STUFF
 #+begin_src emacs-lisp
-  (require 'ox-latex)
+  (use-package 'ox-latex)
   
   (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"))
 #+end_src
@@ -511,7 +511,7 @@
 * HOOKS
 ** org-mode
 #+begin_src emacs-lisp
-  (require 'org-fragtog)
+  (use-package 'org-fragtog)
   (add-hook 'org-mode-hook 'org-fragtog-mode)
   (add-hook 'org-mode-hook 'org-display-inline-images)
 #+end_src
@@ -555,7 +555,7 @@
 
 ** deft
 #+begin_src emacs-lisp
-  (require 'deft)
+  (use-package 'deft)
   (setq deft-directory "~/org")
 #+end_src
 
