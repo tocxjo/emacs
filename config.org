@@ -15,6 +15,8 @@
           ("org" . "https://orgmode.org/elpa/")))
 
   (package-initialize)
+
+  (setq use-package-always-ensure t)
 #+end_src
 
 * SPLASH SCREEN
