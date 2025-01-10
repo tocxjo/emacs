@@ -1,4 +1,4 @@
-#+AUTHOR: lemon / tocxjo
++AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 #+BEGIN_SRC emacs-lisp
   (setq org-babel-default-header-args:elisp
@@ -118,9 +118,6 @@
 
   ;; alias for y/n/p
   (defalias 'yes-or-no-p 'y-or-n-p)
-
-  ;; geometry
-  (setq initial-frame-alist '((width . 92) (height . 24)))
 
   ;; border
   (setq default-frame-alist '((internal-border-width . 24)))
