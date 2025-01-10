@@ -303,7 +303,7 @@
   (use-package doom-themes)
   (use-package ef-themes)
 
-  (setq dark-theme 'doom-tomorrow-night)
+  (setq dark-theme 'ef-bio)
   (setq light-theme 'ef-frost)
 
   (defun night-mode ()
