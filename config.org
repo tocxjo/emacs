@@ -1,8 +1,14 @@
 #+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 #+BEGIN_SRC emacs-lisp
-(setq org-babel-default-header-args:elisp
+  (setq org-babel-default-header-args:elisp
       `((:tangle . ,(expand-file-name "init.el" user-emacs-directory))))
+
+  (unless (boundp 'org-babel-default-header-args:emacs-lisp)
+    (setq org-babel-default-header-args:emacs-lisp '((:tangle . "no"))))
+
+  (unless (boundp 'org-babel-default-header-args:elisp)
+    (defvaralias 'org-babel-default-header-args:elisp 'org-babel-default-header-args:emacs-lisp))
 #+END_SRC
 
 * MELPA
@@ -162,7 +168,6 @@
   (use-package evil-org)
   (add-hook 'org-mode-hook 'evil-org-mode)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-  (use-package evil-org-agenda)
   (evil-org-agenda-set-keys)
 #+end_src
 
@@ -398,7 +403,6 @@
   (use-package smartparens
     :ensure smartparens
     :config
-    (use-package smartparens-config))
   (smartparens-mode t)
 #+end_src
 
