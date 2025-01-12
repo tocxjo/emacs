@@ -110,7 +110,7 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
 
   ;; border
-  (setq default-frame-alist '((internal-border-width . 24)))
+  (setq default-frame-alist '((internal-border-width . 12)))
 
   ;; opacity
   (set-frame-parameter (selected-frame) 'alpha '(98 . 98))
