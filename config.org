@@ -1,4 +1,4 @@
-+AUTHOR: lemon / tocxjo
+#+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 
 * MELPA
