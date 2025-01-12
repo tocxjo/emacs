@@ -1,15 +1,5 @@
 +AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
-#+BEGIN_SRC emacs-lisp
-  (setq org-babel-default-header-args:elisp
-      `((:tangle . ,(expand-file-name "init.el" user-emacs-directory))))
-
-  (unless (boundp 'org-babel-default-header-args:emacs-lisp)
-    (setq org-babel-default-header-args:emacs-lisp '((:tangle . "no"))))
-
-  (unless (boundp 'org-babel-default-header-args:elisp)
-    (defvaralias 'org-babel-default-header-args:elisp 'org-babel-default-header-args:emacs-lisp))
-#+END_SRC
 
 * MELPA
 #+begin_src emacs-lisp
@@ -162,10 +152,13 @@
     :config
     (evil-collection-init))
 
-  (use-package evil-org)
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-  (evil-org-agenda-set-keys)
+  (use-package evil-org
+    :ensure t
+    :hook (org-mode . evil-org-mode)
+    :config
+    (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
 #+end_src
 
 * GENERAL KEYBINDINGS
@@ -400,7 +393,7 @@
   (use-package smartparens
     :ensure smartparens
     :config
-  (smartparens-mode t)
+  (smartparens-mode t))
 #+end_src
 
 ** indentation
