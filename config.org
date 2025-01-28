@@ -62,7 +62,7 @@
   (setq default-frame-alist '((internal-border-width . 12)))
 
   ;; opacity
-  (set-frame-parameter (selected-frame) 'alpha '(98 . 98))
+  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
 
   ;; pomodoro sound
   (setq org-clock-sound "clave.wav")
@@ -221,6 +221,7 @@
      "hf" '(describe-function :which-key "describe function")
      "hm" '(man :which-key "manual entries")
      "hr" '(reload-config :which-key "reload init.el")
+
      "ht" '(consult-theme :which-key "load theme")
      "hv" '(describe-variable :which-key "describe variable")
 
@@ -247,7 +248,7 @@
   (use-package doom-themes)
   (use-package ef-themes)
 
-  (setq dark-theme 'ef-bio)
+  (setq dark-theme 'tron-legacy)
   (setq light-theme 'ef-frost)
 
   (defun night-mode ()
@@ -305,7 +306,7 @@
 
 ** elcord (rpc)
 #+begin_src emacs-lisp
-#(use-package elcord
+(use-package elcord
   :ensure t
   :config
   (setq elcord-client-id "1333674662613356554")
