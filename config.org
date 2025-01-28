@@ -221,7 +221,7 @@
      "hf" '(describe-function :which-key "describe function")
      "hm" '(man :which-key "manual entries")
      "hr" '(reload-config :which-key "reload init.el")
-     "ht" '(load-theme :which-key "load theme")
+     "ht" '(consult-theme :which-key "load theme")
      "hv" '(describe-variable :which-key "describe variable")
 
      "vt" '(vterm :which-key "vterm"))
@@ -305,9 +305,12 @@
 
 ** elcord (rpc)
 #+begin_src emacs-lisp
-  (use-package elcord)
-  (elcord-mode)
-#+end_src
+#(use-package elcord
+  :ensure t
+  :config
+  (setq elcord-client-id "1333674662613356554")
+  (elcord-mode 1))
+#+end_src emacs-lisp
 
 ** gcmh (garbage collector)
 #+begin_src emacs-lisp
@@ -367,15 +370,19 @@
 
 ** popup
 #+begin_src emacs-lisp
-(use-package vertico
-  :ensure t
-  :init
-  (vertico-mode))
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode))
 
-(use-package marginalia
-  :ensure t
-  :init
-  (marginalia-mode))
+  (use-package consult
+    :ensure t
+    :config)
+
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode))
 #+end_src
 
 ** lsp-mode
