@@ -248,7 +248,7 @@
   (use-package doom-themes)
   (use-package ef-themes)
 
-  (setq dark-theme 'tron-legacy)
+  (setq dark-theme 'doom-meltbus)
   (setq light-theme 'ef-frost)
 
   (defun night-mode ()
