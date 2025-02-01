@@ -75,6 +75,9 @@
 
   ;; prettify symbols
   (global-prettify-symbols-mode 1)
+
+  ;; hide emphasis markers in org mode
+  (setq org-hide-emphasis-markers t)
 #+end_src
 
 * EVIL MODE
