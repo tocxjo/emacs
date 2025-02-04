@@ -78,6 +78,9 @@
 
   ;; hide emphasis markers in org mode
   (setq org-hide-emphasis-markers t)
+
+  ;; change diary file location to ~/org
+  (setq diary-file "~/org/diary")
 #+end_src
 
 * EVIL MODE
