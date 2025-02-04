@@ -532,10 +532,10 @@
 #+begin_src emacs-lisp
   (setq directories
   '((proj . "~/projects/")
-    (docs . "~/documents/")
+    (docs . "~/Documents/")
     (books . "f:/books/")
     (org . "~/org/")
-    (downloads . "~/downloads/")))
+    (downloads . "~/Downloads/")))
   
   (defun find-file-in-directory (alias)
   (interactive
