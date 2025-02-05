@@ -277,7 +277,8 @@
           (night-mode)
         (day-mode))))
 
-  (toggle-day-night-mode)
+  ;; (toggle-day-night-mode) 
+  (night-mode)
 #+end_src
 
 * PACKAGES
