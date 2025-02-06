@@ -81,6 +81,9 @@
 
   ;; change diary file location to ~/org
   (setq diary-file "~/org/diary")
+
+  ;; start org-agenda at init
+  (add-hook 'after-init-hook 'org-agenda-list)
 #+end_src
 
 * EVIL MODE
