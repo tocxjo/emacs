@@ -4,15 +4,10 @@
 * MELPA
 #+begin_src emacs-lisp
   (require 'package)
-
   (setq package-archives
-        '(("gnu" . "https://elpa.gnu.org/packages/")
-          ("melpa" . "https://melpa.org/packages/")
-          ("org" . "https://orgmode.org/elpa/")))
-
+    '(("MELPA"        . "https://melpa.org/packages/")
+      ("GNU ELPA"     . "https://elpa.gnu.org/packages/")))
   (package-initialize)
-
-  (setq use-package-always-ensure t)
 #+end_src
 
 * EMACS CONFIG
@@ -20,15 +15,15 @@
   ;; disable backup files
   (setq make-backup-files nil)
 
-  ;; disable basic UI 
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+  ;; disable basic UI
+   (menu-bar-mode -1)
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
 
   ;; disable cursor blink
   (blink-cursor-mode -1)
 
-  ;; better visualization 
+  ;; better visualization
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (setq-default fill-column 80)
@@ -136,7 +131,7 @@
 
   (defun pomodoro-break ()
     (interactive)
-    (org-timer-set-timer 5)) 
+    (org-timer-set-timer 5))
 
   (defun reload-config ()
     (interactive)
@@ -157,7 +152,7 @@
      "SPC" 'self-insert-command)
 
     (my-leader-def
-     :keymaps 'evil-normal-state-map  
+     :keymaps 'evil-normal-state-map
      "f"  '(:ignore t :which-key "file")
      "fc" '(compile :which-key "compile file")
      "fd" '(find-file-in-directory :which-key "find file in directory")
@@ -237,12 +232,12 @@
      "vt" '(vterm :which-key "vterm"))
 
     (my-leader-def
-     :keymaps 'evil-insert-state-map  
+     :keymaps 'evil-insert-state-map
     )
 
     (my-leader-def
-     :keymaps 'org-mode-map  
-     (kbd "<C-c> <C-t>") #'org-todo)  
+     :keymaps 'org-mode-map
+     (kbd "<C-c> <C-t>") #'org-todo)
 #+end_src
 
 * THEME
@@ -251,7 +246,7 @@
    (set-frame-font "iosevka 13" nil t)
 ;; (set-frame-font "ms gothic 13" nil t)
 #+end_src
- 
+
 ** theme
 #+begin_src emacs-lisp
   (use-package doom-themes)
@@ -280,7 +275,7 @@
           (night-mode)
         (day-mode))))
 
-  ;; (toggle-day-night-mode) 
+  ;; (toggle-day-night-mode)
   (night-mode)
 #+end_src
 
@@ -309,7 +304,7 @@
 #+end_src
 
 ** flycheck (syntax-checking)
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 (use-package flycheck
      :ensure t)
 #+end_src
@@ -340,7 +335,7 @@
 #+begin_src emacs-lisp
   (use-package jabber
       :ensure t)
-  
+
   (setq jabber-account-list
       `((,(getenv "JABBER_USER")
          (:password . ,(getenv "JABBER_PASSWORD"))
@@ -352,7 +347,7 @@
 #+end_src
 
 ** smartparens
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
   (use-package smartparens
     :ensure smartparens
     :config
@@ -372,7 +367,7 @@
   (use-package which-key
     :ensure t
     :config
-    (setq which-key-side-window-location 'bottom) 
+    (setq which-key-side-window-location 'bottom)
     (setq which-key-max-display-columns nil)
     (setq which-key-min-display-lines 1)
     (which-key-mode)
@@ -543,7 +538,7 @@
     (books . "f:/books/")
     (org . "~/org/")
     (downloads . "~/Downloads/")))
-  
+
   (defun find-file-in-directory (alias)
   (interactive
    (list (intern (completing-read "choose directory: " (mapcar (lambda (pair) (symbol-name (car pair))) directories)))))
