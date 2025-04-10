@@ -458,6 +458,15 @@
     (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
+** nyan-mode
+#+begin_src emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (nyan-mode 1)
+    (setq nyan-wavy-trail t)) 
+#+end_src
+
 * HOOKS
 ** org-mode
 #+begin_src emacs-lisp
