@@ -253,7 +253,7 @@
   (use-package ef-themes)
 
   (setq dark-theme 'doom-meltbus)
-  (setq light-theme 'ef-frost)
+  (setq light-theme 'leuven)
 
   (defun night-mode ()
     (interactive)
@@ -275,8 +275,7 @@
           (night-mode)
         (day-mode))))
 
-  ;; (toggle-day-night-mode)
-  (night-mode)
+  (toggle-day-night-mode)
 #+end_src
 
 * PACKAGES
