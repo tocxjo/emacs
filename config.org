@@ -463,8 +463,7 @@
   (use-package nyan-mode
     :ensure t
     :config
-    (nyan-mode 1)
-    (setq nyan-wavy-trail t)) 
+    (nyan-mode 1)) 
 #+end_src
 
 * HOOKS
