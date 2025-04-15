@@ -350,7 +350,7 @@
   (use-package smartparens
     :ensure smartparens
     :config
-  (smartparens-mode t))
+  (smartparens-global-mode t))
 #+end_src
 
 ** indentation
