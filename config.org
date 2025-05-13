@@ -57,7 +57,7 @@
   (setq default-frame-alist '((internal-border-width . 12)))
 
   ;; opacity
-  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 
   ;; pomodoro sound
   (setq org-clock-sound "clave.wav")
