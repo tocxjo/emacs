@@ -81,6 +81,13 @@
   (add-hook 'after-init-hook 'org-agenda-list)
 #+end_src
 
+** lsp-java windows configuration
+#+begin_src emacs-lisp
+  (when (eq system-type 'windows-nt)
+    (setenv "JAVA_HOME" "C:/Program Files/Java/jdk-21/")
+    (setq lsp-java-java-path "C:/Program Files/Java/jdk-21/bin/java.exe"))
+#+end_src
+
 * EVIL MODE
 #+begin_src emacs-lisp
   (use-package evil
