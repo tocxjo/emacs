@@ -485,6 +485,12 @@
     :after yasnippet)
 #+end_src
 
+** yafolding
+#+begin_src emacs-lisp
+  (use-package yafolding
+    :ensure t)
+#+end_src
+
 ** magit
 #+begin_src emacs-lisp
 (use-package magit
