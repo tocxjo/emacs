@@ -88,6 +88,38 @@
     (setq lsp-java-java-path "C:/Program Files/Java/jdk-21/bin/java.exe"))
 #+end_src
 
+** golang prettify symbols
+#+begin_src emacs-lisp
+  (add-hook
+   'go-mode-hook
+   (lambda ()
+     (push '("error" . ?∇) prettify-symbols-alist)
+     (push '("err" . ?⊙) prettify-symbols-alist)
+     (push '("exists" . ?∃) prettify-symbols-alist)
+     (push '(":= range" . ?∈) prettify-symbols-alist)
+     (push '("ok" . ?✓) prettify-symbols-alist)
+     (push '("==" . ?≡) prettify-symbols-alist)
+     (push '(":=" . ?≔) prettify-symbols-alist)
+     (push '(">=" . ?≥) prettify-symbols-alist)
+     (push '("<=" . ?≤) prettify-symbols-alist)
+     (push '("<-" . ?←) prettify-symbols-alist)
+     (push '("!=" . ?≠) prettify-symbols-alist)
+     (push '("..." . ?…) prettify-symbols-alist)
+     (push '("nil" . ?∅) prettify-symbols-alist)
+     (push '("make" . ?&) prettify-symbols-alist)
+     (push '("new" . ?&) prettify-symbols-alist)
+     (push '("context.Context" . ?◇) prettify-symbols-alist)
+     (push '("ctx" . ?⋄) prettify-symbols-alist)
+     (push '("mu" . ?❢) prettify-symbols-alist)
+     (push '("&&" . ?∧) prettify-symbols-alist)
+     (push '("||" . ?∨) prettify-symbols-alist)
+     (push '("!" . ?¬) prettify-symbols-alist)
+     (push '("interface{}" . ?⋆) prettify-symbols-alist)
+     (push '("struct{}" . ?ε) prettify-symbols-alist)
+     ))
+  (global-prettify-symbols-mode 't)
+#+end_src
+
 * EVIL MODE
 #+begin_src emacs-lisp
   (use-package evil
