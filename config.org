@@ -275,7 +275,8 @@
     "ss" '(swiper :which-key "swiper")
 
     "t"  '(:ignore t :which-key "toggle")
-    "t t" '(treemacs :which-key "toggle treemacs")
+ "t TAB" '(tab-bar-mode :which-key "toggle tab bar")
+   "t t" '(treemacs :which-key "toggle treemacs")
 
     "TAB"  '(:ignore t :which-key "tab")
     "TAB d" '(tab-close :which-key "close tab")
