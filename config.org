@@ -201,104 +201,104 @@
 
 ** define keybindings
 #+begin_src emacs-lisp
-    (use-package general
-      :ensure t)
+   (use-package general
+     :ensure t)
 
-    (general-create-definer my-leader-def
-      :prefix "SPC"
-      :non-normal-prefix "M-SPC")
+   (general-create-definer my-leader-def
+     :prefix "SPC"
+     :non-normal-prefix "M-SPC")
 
-    (general-define-key
-     :keymaps 'evil-insert-state-map
-     "SPC" 'self-insert-command)
+   (general-define-key
+    :keymaps 'evil-insert-state-map
+    "SPC" 'self-insert-command)
 
-    (my-leader-def
-     :keymaps 'evil-normal-state-map
-     "f"  '(:ignore t :which-key "file")
-     "fc" '(compile :which-key "compile file")
-     "fd" '(find-file-in-directory :which-key "find file in directory")
-     "ff" '(find-file :which-key "find file")
-     "fp" '(goto-config :which-key "open config.org")
-     "fr" '(recentf :which-key "recent files")
-     "fs" '(save-buffer :which-key "save file")
+   (my-leader-def
+    :keymaps 'evil-normal-state-map
+    "f"  '(:ignore t :which-key "file")
+    "fc" '(compile :which-key "compile file")
+    "fd" '(find-file-in-directory :which-key "find file in directory")
+    "ff" '(find-file :which-key "find file")
+    "fp" '(goto-config :which-key "open config.org")
+    "fr" '(recentf :which-key "recent files")
+    "fs" '(save-buffer :which-key "save file")
 
-     "."  '(find-file :which-key "find file")
+    "."  '(find-file :which-key "find file")
 
-     "b"  '(:ignore t :which-key "buffer")
-     "bb" '(switch-to-buffer :which-key "switch to buffer")
-     "bd" '(kill-buffer :which-key "delete buffer")
-     "bj" '(previous-buffer :which-key "previous buffer")
-     "bk" '(next-buffer :which-key "next buffer")
-     "bl" '(buffer-menu :which-key "buffer menu")
+    "b"  '(:ignore t :which-key "buffer")
+    "bb" '(switch-to-buffer :which-key "switch to buffer")
+    "bd" '(kill-buffer :which-key "delete buffer")
+    "bj" '(previous-buffer :which-key "previous buffer")
+    "bk" '(next-buffer :which-key "next buffer")
+    "bl" '(buffer-menu :which-key "buffer menu")
+  
+    "h"  '(:ignore t :which-key "help")
+    "hf" '(describe-function :which-key "describe function")
+    "hm" '(man :which-key "manual entries")
+    "hr" '(reload-config :which-key "reload init.el")
 
-     "n"  '(:ignore t :which-key "org-roam nodes")
-     "nf" '(org-roam-node-find :which-key "find node")
-     "ng" '(org-roam-ui-open :which-key "node graph")
-     "ni" '(org-roam-node-insert :which-key "insert node")
-     "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
-     "nt" '(org-roam-tag-add :which-key "add tag")
+    "ht" '(consult-theme :which-key "load theme")
+    "hv" '(describe-variable :which-key "describe variable")
 
-     "o"  '(:ignore t :which-key "org-mode commands")
-     "oa" '(org-agenda :which-key "open org-agenda")
-     "oc" '(org-goto-calendar :which-key "open org-calendar")
-     "oe" '(org-export-dispatch :which-key "export to:")
-     "oo" '(org-open-at-point :which-key "open link")
-     "os" '(org-sort :which-key "sort current subtree or list")
-     "oi" '(:ignore t :which-key "insert")
-     "oi." '(org-time-stamp :which-key "insert timestamp")
-     "oid" '(org-deadline :which-key "insert deadline")
-     "oih" '(org-insert-heading :which-key "insert heading")
-     "oil" '(org-insert-link :which-key "insert link")
-     "oip" '(org-set-property :which-key "insert property")
-     "ois" '(org-schedule :which-key "insert schedule")
-     "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
-     "oi," '(org-insert-structure-template :which-key "insert structure")
-     "p"   '(:ignore t :which-key "pomodoro")
-     "pp"  '(pomodoro-start :which-key "start pomodoro")
-     "pl"  '(:ignore t :which-key "long break")
-     "plb" '(pomodoro-long-break :which-key "pomodoro long break")
-     "pb"  '(pomodoro-break :which-key "pomodoro break")
-     "ps"  '(org-timer-stop :which-key "stop pomodoro")
-     "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
+    "n"  '(:ignore t :which-key "org-roam nodes")
+    "nf" '(org-roam-node-find :which-key "find node")
+    "ng" '(org-roam-ui-open :which-key "node graph")
+    "ni" '(org-roam-node-insert :which-key "insert node")
+    "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
+    "nt" '(org-roam-tag-add :which-key "add tag")
 
-     "s"  '(:ignore t :which-key "search")
-     "sg" '(rg-project :which-key "ripgrep project")
-     "so" '(sort-lines :which-key "sort lines")
-     "ss" '(swiper :which-key "swiper")
+    "o"  '(:ignore t :which-key "org-mode commands")
+    "oa" '(org-agenda :which-key "open org-agenda")
+    "oc" '(org-goto-calendar :which-key "open org-calendar")
+    "oe" '(org-export-dispatch :which-key "export to:")
+    "oo" '(org-open-at-point :which-key "open link")
+    "os" '(org-sort :which-key "sort current subtree or list")
+    "oi" '(:ignore t :which-key "insert")
+    "oi." '(org-time-stamp :which-key "insert timestamp")
+    "oid" '(org-deadline :which-key "insert deadline")
+    "oih" '(org-insert-heading :which-key "insert heading")
+    "oil" '(org-insert-link :which-key "insert link")
+    "oip" '(org-set-property :which-key "insert property")
+    "ois" '(org-schedule :which-key "insert schedule")
+    "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
+    "oi," '(org-insert-structure-template :which-key "insert structure")
+    "p"   '(:ignore t :which-key "pomodoro")
+    "pp"  '(pomodoro-start :which-key "start pomodoro")
+    "pl"  '(:ignore t :which-key "long break")
+    "plb" '(pomodoro-long-break :which-key "pomodoro long break")
+    "pb"  '(pomodoro-break :which-key "pomodoro break")
+    "ps"  '(org-timer-stop :which-key "stop pomodoro")
+    "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
 
-     "TAB"  '(:ignore t :which-key "tab")
-     "TAB d" '(tab-close :which-key "close tab")
-     "TAB j" '(tab-previous :which-key "previous tab")
-     "TAB k" '(tab-next :which-key "next tab")
-     "TAB l" '(tab-list :which-key "list of tabs")
-     "TAB n" '(tab-new :which-key "new tab")
-     "TAB y" '(tab-new :which-key "duplicate tab")
-   "TAB TAB" '(tab-recent :which-key "recent tab")
+    "s"  '(:ignore t :which-key "search")
+    "sg" '(rg-project :which-key "ripgrep project")
+    "so" '(sort-lines :which-key "sort lines")
+    "ss" '(swiper :which-key "swiper")
 
-     "w"  '(:ignore t :which-key "window")
-     "wh" '(windmove-left :which-key "move left")
-     "wj" '(windmove-down :which-key "move down")
-     "wk" '(windmove-up :which-key "move up")
-     "wl" '(windmove-right :which-key "move right")
-     "wt" '(tear-off-window :which-key "tear off window")
+    "TAB"  '(:ignore t :which-key "tab")
+    "TAB d" '(tab-close :which-key "close tab")
+    "TAB j" '(tab-previous :which-key "previous tab")
+    "TAB k" '(tab-next :which-key "next tab")
+    "TAB l" '(tab-list :which-key "list of tabs")
+    "TAB n" '(tab-new :which-key "new tab")
+    "TAB y" '(tab-new :which-key "duplicate tab")
+  "TAB TAB" '(tab-recent :which-key "recent tab")
 
-     "h"  '(:ignore t :which-key "help")
-     "hf" '(describe-function :which-key "describe function")
-     "hm" '(man :which-key "manual entries")
-     "hr" '(reload-config :which-key "reload init.el")
+    "w"  '(:ignore t :which-key "window")
+    "wh" '(windmove-left :which-key "move left")
+    "wj" '(windmove-down :which-key "move down")
+    "wk" '(windmove-up :which-key "move up")
+    "wl" '(windmove-right :which-key "move right")
+    "wt" '(tear-off-window :which-key "tear off window")
 
-     "ht" '(consult-theme :which-key "load theme")
-     "hv" '(describe-variable :which-key "describe variable")
+    "vt" '(vterm :which-key "vterm"))
 
-     "vt" '(vterm :which-key "vterm"))
+   (my-leader-def
+    :keymaps 'evil-insert-state-map
+   )
 
-    (my-leader-def
-     :keymaps 'evil-insert-state-map
-    )
-
-    (my-leader-def
-     :keymaps 'org-mode-map
-     (kbd "<C-c> <C-t>") #'org-todo)
+   (my-leader-def
+    :keymaps 'org-mode-map
+    (kbd "<C-c> <C-t>") #'org-todo)
 #+end_src
 
 * THEME
