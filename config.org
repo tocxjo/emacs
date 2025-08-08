@@ -230,7 +230,7 @@
     "bj" '(previous-buffer :which-key "previous buffer")
     "bk" '(next-buffer :which-key "next buffer")
     "bl" '(buffer-menu :which-key "buffer menu")
-  
+
     "h"  '(:ignore t :which-key "help")
     "hf" '(describe-function :which-key "describe function")
     "hm" '(man :which-key "manual entries")
@@ -273,6 +273,9 @@
     "sg" '(rg-project :which-key "ripgrep project")
     "so" '(sort-lines :which-key "sort lines")
     "ss" '(swiper :which-key "swiper")
+
+    "t"  '(:ignore t :which-key "toggle")
+    "t t" '(treemacs :which-key "toggle treemacs")
 
     "TAB"  '(:ignore t :which-key "tab")
     "TAB d" '(tab-close :which-key "close tab")
