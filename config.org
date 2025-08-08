@@ -310,7 +310,7 @@
 * THEME
 ** font
 #+begin_src emacs-lisp
-   (set-frame-font "iosevka 13" nil t)
+   (set-frame-font "jetbrains mono 12" nil t)
 ;; (set-frame-font "ms gothic 13" nil t)
 #+end_src
 
