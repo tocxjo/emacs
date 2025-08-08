@@ -311,17 +311,18 @@
 * THEME
 ** font
 #+begin_src emacs-lisp
-   (set-frame-font "jetbrains mono 12" nil t)
+   (set-frame-font "jetbrains mono 11" nil t)
 ;; (set-frame-font "ms gothic 13" nil t)
 #+end_src
 
 ** theme
 #+begin_src emacs-lisp
   (use-package doom-themes)
+  (use-package tao-theme)
   (use-package ef-themes)
 
-  (setq dark-theme 'doom-meltbus)
-  (setq light-theme 'leuven)
+  (setq dark-theme 'tao-yin)
+  (setq light-theme 'doom-tomorrow-day)
 
   (defun night-mode ()
     (interactive)
