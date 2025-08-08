@@ -35,6 +35,9 @@
   ;; inhibit startup message
   (setq inhibit-startup-message t)
 
+  ;; disable initial scratch message
+  (setq initial-scratch-message nil)
+
   ;; ignore case while searching
   (setq case-fold-search t)
   (setq grep-command "rg --no-heading --vimgrep --smart-case ")
@@ -562,6 +565,20 @@
     :after (treemacs)
     :ensure t
     :config (treemacs-set-scope-type 'Tabs))
+#+end_src
+
+** dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (setq dashboard-items '((recents  . 5)
+                            (agenda . 5)
+                            (projects . 5)))
+    (setq dashboard-set-heading-icons t
+            dashboard-set-file-icons t
+            dashboard-startup-banner 'official)
+    (dashboard-setup-startup-hook))
 #+end_src
 
 * HOOKS
