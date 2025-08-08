@@ -319,10 +319,11 @@
 #+begin_src emacs-lisp
   (use-package doom-themes)
   (use-package tao-theme)
+  (use-package nano-theme)
   (use-package ef-themes)
 
   (setq dark-theme 'tao-yin)
-  (setq light-theme 'doom-tomorrow-day)
+  (setq light-theme 'nano-light)
 
   (defun night-mode ()
     (interactive)
