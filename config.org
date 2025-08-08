@@ -59,6 +59,9 @@
   ;; border
   (setq default-frame-alist '((internal-border-width . 12)))
 
+  ;; start emacs maximized
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
   ;; opacity
   (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 
