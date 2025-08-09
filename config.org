@@ -212,8 +212,11 @@
      :keymaps 'evil-insert-state-map
      "SPC" 'self-insert-command)
 
-    ;; f8 to show treemacs
-    (global-set-key (kbd "<f8>") 'treemacs)
+    ;; f8 to show treemacs (NOT USED)
+    ;; (global-set-key (kbd "<f8>") 'treemacs)
+
+    ;; f8 to show neotree
+    (global-set-key (kbd "<f8>") 'neotree-toggle)
 
     (my-leader-def
      :keymaps 'evil-normal-state-map
@@ -274,7 +277,7 @@
      "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
      "oo" '(org-open-at-point :which-key "open link")
      "os" '(org-sort :which-key "sort current subtree or list")
-  
+
      "p"   '(:ignore t :which-key "pomodoro")
      "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
      "pb"  '(pomodoro-break :which-key "pomodoro break")
@@ -556,7 +559,7 @@
     (nyan-mode 1)) 
 #+end_src
 
-** treemacs
+# ** treemacs
 #+begin_src emacs-lisp
   (use-package treemacs
     :ensure t  
@@ -580,7 +583,7 @@
     :ensure t)
 
   (use-package treemacs-magit
-    :after (treemacs magit)
+    :after (treemacs-magit)
     :ensure t)
 
   (use-package treemacs-tab-bar
@@ -589,17 +592,36 @@
     :config (treemacs-set-scope-type 'Tabs))
 #+end_src
 
+** neotree
+#+begin_src emacs-lisp
+  (use-package neotree
+    :ensure t)
+
+  (use-package neotree
+    :after (neotree)
+    :ensure t)
+
+  ;; disable line numbers in neotree's window
+  (add-hook 'neo-after-create-hook
+          (lambda (&optional dummy)
+            (display-line-numbers-mode -1)))
+
+  (setq neo-theme 'icons)
+#+end_src
+
 ** dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
     :ensure t
     :config
     (setq dashboard-items '((recents  . 5)
+                            (bookmarks . 5)
                             (agenda . 5)
                             (projects . 5)))
     (setq dashboard-set-heading-icons t
-            dashboard-set-file-icons t
-            dashboard-startup-banner 'official)
+          dashboard-set-file-icons t
+          dashboard-startup-banner 'official)
+    (add-hook 'dashboard-after-initialize-hook 'neotree-toggle)
     (dashboard-setup-startup-hook))
 #+end_src
 
