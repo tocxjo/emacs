@@ -106,13 +106,9 @@
       (push '("<-" . ?←) prettify-symbols-alist)
       (push '("!=" . ?≠) prettify-symbols-alist)
       (push '("..." . ?…) prettify-symbols-alist)
-      (push '("context.Context" . ?◇) prettify-symbols-alist)
-      (push '("ctx" . ?⋄) prettify-symbols-alist)
-      (push '("mu" . ?❢) prettify-symbols-alist)
       (push '("&&" . ?∧) prettify-symbols-alist)
       (push '("||" . ?∨) prettify-symbols-alist)
       (push '("!" . ?¬) prettify-symbols-alist)
-      (push '("interface{}" . ?⋆) prettify-symbols-alist)
       ))
 
    (add-hook
