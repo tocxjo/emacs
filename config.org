@@ -373,9 +373,9 @@
     (setq-default pdf-view-display-size 'fit-width))
 
   (use-package pdf-view-restore
-  :after pdf-tools
-  :config
-  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+    :after pdf-tools
+    :config
+    (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 #+end_src
 
 ** auto-complete
