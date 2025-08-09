@@ -68,14 +68,18 @@
   ;; tramp stuff
   (setq tramp-default-method "ssh")
   (setq tramp-verbose 10)
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
+  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
 
   ;; hide emphasis markers in org mode
   (setq org-hide-emphasis-markers t)
 
   ;; change diary file location to ~/org
   (setq diary-file "~/org/diary")
+
+  ;; fix magit for windows
+  (with-eval-after-load 'server
+  (when (eq system-type 'windows-nt)
+    (defun server-ensure-safe-dir (dir) "Noop" t)))
 #+end_src
 
 ** lsp-java windows configuration
