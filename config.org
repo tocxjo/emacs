@@ -322,7 +322,7 @@
   (use-package nano-theme)
   (use-package ef-themes)
 
-  (setq dark-theme 'tao-yin)
+  (setq dark-theme 'doom-tomorrow-night)
   (setq light-theme 'nano-light)
 
   (defun night-mode ()
