@@ -138,7 +138,7 @@
     (push '("->" . ?→) prettify-symbols-alist)
     (push '("*" . ?∗) prettify-symbols-alist) ; Para punteros
     ))
-  
+
    (global-prettify-symbols-mode 't)
 #+end_src
 
@@ -337,7 +337,7 @@
   (use-package ef-themes)
 
   (setq dark-theme 'nano-dark)
-  (setq light-theme 'nano-light)
+  (setq light-theme 'ef-cyprus)
 
   (defun night-mode ()
     (interactive)
