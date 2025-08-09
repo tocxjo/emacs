@@ -238,6 +238,16 @@
      "bk" '(next-buffer :which-key "next buffer")
      "bl" '(buffer-menu :which-key "buffer menu")
 
+     "g"  '(:ignore t :which-key "git")
+     "gg" '(magit-status :which-key "open git status")
+     "gl" '(magit-log :which-key "open git log")
+     "gr" '(magit-run :which-key "run git command")
+     "gp" '(magit-push :which-key "push git repo")
+     "gc" '(magit-commit :which-key "commit git message")
+     "gC" '(magit-clone :which-key "clone git repo")
+     "gs" '(magit-stage :which-key "stage git changes")
+     "gd" '(magit-diff :which-key "show git diff")
+  
      "h"  '(:ignore t :which-key "help")
      "hf" '(describe-function :which-key "describe function")
      "hm" '(man :which-key "manual entries")
