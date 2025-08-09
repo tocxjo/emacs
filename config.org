@@ -326,7 +326,7 @@
   (use-package nano-theme)
   (use-package ef-themes)
 
-  (setq dark-theme 'doom-tomorrow-night)
+  (setq dark-theme 'nano-dark)
   (setq light-theme 'nano-light)
 
   (defun night-mode ()
