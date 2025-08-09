@@ -17,8 +17,8 @@
 
   ;; disable basic UI
   ;; (menu-bar-mode -1)
-   (tool-bar-mode -1)
-   (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
 
   ;; disable cursor blink
   (blink-cursor-mode -1)
@@ -32,15 +32,12 @@
   (global-display-line-numbers-mode t)
   (setq display-line-numbers-type 'relative)
 
-  ;; inhibit startup message
-  (setq inhibit-startup-message t)
-
-  ;; disable initial scratch message
-  (setq initial-scratch-message nil)
-
   ;; ignore case while searching
   (setq case-fold-search t)
   (setq grep-command "rg --no-heading --vimgrep --smart-case ")
+
+  ;; no startup screen and no scratch
+  (setq inhibit-startup-screen t)
 
   ;; enable tab-bar mode
   (tab-bar-mode 1)
@@ -72,7 +69,7 @@
   (setq tramp-default-method "ssh")
   (setq tramp-verbose 10)
   (setq tramp-ssh-controlmaster-options
-      "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
+        "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
 
   ;; hide emphasis markers in org mode
   (setq org-hide-emphasis-markers t)
@@ -204,108 +201,111 @@
 
 ** define keybindings
 #+begin_src emacs-lisp
-   (use-package general
-     :ensure t)
+    (use-package general
+      :ensure t)
 
-   (general-create-definer my-leader-def
-     :prefix "SPC"
-     :non-normal-prefix "M-SPC")
+    (general-create-definer my-leader-def
+      :prefix "SPC"
+      :non-normal-prefix "M-SPC")
 
-   (general-define-key
-    :keymaps 'evil-insert-state-map
-    "SPC" 'self-insert-command)
+    (general-define-key
+     :keymaps 'evil-insert-state-map
+     "SPC" 'self-insert-command)
 
-   (my-leader-def
-    :keymaps 'evil-normal-state-map
-    "f"  '(:ignore t :which-key "file")
-    "fc" '(compile :which-key "compile file")
-    "fd" '(find-file-in-directory :which-key "find file in directory")
-    "ff" '(find-file :which-key "find file")
-    "fp" '(goto-config :which-key "open config.org")
-    "fr" '(recentf :which-key "recent files")
-    "fs" '(save-buffer :which-key "save file")
+    ;; f8 to show treemacs
+    (global-set-key (kbd "<f8>") 'treemacs)
 
-    "."  '(find-file :which-key "find file")
+    (my-leader-def
+     :keymaps 'evil-normal-state-map
+     "f"  '(:ignore t :which-key "file")
+     "fc" '(compile :which-key "compile file")
+     "fd" '(find-file-in-directory :which-key "find file in directory")
+     "ff" '(find-file :which-key "find file")
+     "fp" '(goto-config :which-key "open config.org")
+     "fr" '(recentf :which-key "recent files")
+     "fs" '(save-buffer :which-key "save file")
 
-    "b"  '(:ignore t :which-key "buffer")
-    "bb" '(switch-to-buffer :which-key "switch to buffer")
-    "bd" '(kill-buffer :which-key "delete buffer")
-    "bj" '(previous-buffer :which-key "previous buffer")
-    "bk" '(next-buffer :which-key "next buffer")
-    "bl" '(buffer-menu :which-key "buffer menu")
+     "."  '(find-file :which-key "find file")
 
-    "h"  '(:ignore t :which-key "help")
-    "hf" '(describe-function :which-key "describe function")
-    "hm" '(man :which-key "manual entries")
-    "hr" '(reload-config :which-key "reload init.el")
+     "b"  '(:ignore t :which-key "buffer")
+     "bb" '(switch-to-buffer :which-key "switch to buffer")
+     "bd" '(kill-buffer :which-key "delete buffer")
+     "bj" '(previous-buffer :which-key "previous buffer")
+     "bk" '(next-buffer :which-key "next buffer")
+     "bl" '(buffer-menu :which-key "buffer menu")
 
-    "ht" '(consult-theme :which-key "load theme")
-    "hv" '(describe-variable :which-key "describe variable")
+     "h"  '(:ignore t :which-key "help")
+     "hf" '(describe-function :which-key "describe function")
+     "hm" '(man :which-key "manual entries")
+     "hr" '(reload-config :which-key "reload init.el")
 
-    "n"  '(:ignore t :which-key "org-roam nodes")
-    "nf" '(org-roam-node-find :which-key "find node")
-    "ng" '(org-roam-ui-open :which-key "node graph")
-    "ni" '(org-roam-node-insert :which-key "insert node")
-    "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
-    "nt" '(org-roam-tag-add :which-key "add tag")
+     "ht" '(consult-theme :which-key "load theme")
+     "hv" '(describe-variable :which-key "describe variable")
 
-    "o"  '(:ignore t :which-key "org-mode commands")
-    "oa" '(org-agenda :which-key "open org-agenda")
-    "oc" '(org-goto-calendar :which-key "open org-calendar")
-    "oe" '(org-export-dispatch :which-key "export to:")
-    "oo" '(org-open-at-point :which-key "open link")
-    "os" '(org-sort :which-key "sort current subtree or list")
-    "oi" '(:ignore t :which-key "insert")
-    "oi." '(org-time-stamp :which-key "insert timestamp")
-    "oid" '(org-deadline :which-key "insert deadline")
-    "oih" '(org-insert-heading :which-key "insert heading")
-    "oil" '(org-insert-link :which-key "insert link")
-    "oip" '(org-set-property :which-key "insert property")
-    "ois" '(org-schedule :which-key "insert schedule")
-    "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
-    "oi," '(org-insert-structure-template :which-key "insert structure")
-    "p"   '(:ignore t :which-key "pomodoro")
-    "pp"  '(pomodoro-start :which-key "start pomodoro")
-    "pl"  '(:ignore t :which-key "long break")
-    "plb" '(pomodoro-long-break :which-key "pomodoro long break")
-    "pb"  '(pomodoro-break :which-key "pomodoro break")
-    "ps"  '(org-timer-stop :which-key "stop pomodoro")
-    "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
+     "n"  '(:ignore t :which-key "org-roam nodes")
+     "nf" '(org-roam-node-find :which-key "find node")
+     "ng" '(org-roam-ui-open :which-key "node graph")
+     "ni" '(org-roam-node-insert :which-key "insert node")
+     "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
+     "nt" '(org-roam-tag-add :which-key "add tag")
 
-    "s"  '(:ignore t :which-key "search")
-    "sg" '(rg-project :which-key "ripgrep project")
-    "so" '(sort-lines :which-key "sort lines")
-    "ss" '(swiper :which-key "swiper")
+     "o"  '(:ignore t :which-key "org-mode commands")
+     "oa" '(org-agenda :which-key "open org-agenda")
+     "oc" '(org-goto-calendar :which-key "open org-calendar")
+     "oe" '(org-export-dispatch :which-key "export to:")
+     "oo" '(org-open-at-point :which-key "open link")
+     "os" '(org-sort :which-key "sort current subtree or list")
+     "oi" '(:ignore t :which-key "insert")
+     "oi." '(org-time-stamp :which-key "insert timestamp")
+     "oid" '(org-deadline :which-key "insert deadline")
+     "oih" '(org-insert-heading :which-key "insert heading")
+     "oil" '(org-insert-link :which-key "insert link")
+     "oip" '(org-set-property :which-key "insert property")
+     "ois" '(org-schedule :which-key "insert schedule")
+     "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
+     "oi," '(org-insert-structure-template :which-key "insert structure")
+     "p"   '(:ignore t :which-key "pomodoro")
+     "pp"  '(pomodoro-start :which-key "start pomodoro")
+     "pl"  '(:ignore t :which-key "long break")
+     "plb" '(pomodoro-long-break :which-key "pomodoro long break")
+     "pb"  '(pomodoro-break :which-key "pomodoro break")
+     "ps"  '(org-timer-stop :which-key "stop pomodoro")
+     "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
 
-    "t"  '(:ignore t :which-key "toggle")
- "t TAB" '(tab-bar-mode :which-key "toggle tab bar")
-   "t t" '(treemacs :which-key "toggle treemacs")
+     "s"  '(:ignore t :which-key "search")
+     "sg" '(rg-project :which-key "ripgrep project")
+     "so" '(sort-lines :which-key "sort lines")
+     "ss" '(swiper :which-key "swiper")
 
-    "TAB"  '(:ignore t :which-key "tab")
-    "TAB d" '(tab-close :which-key "close tab")
-    "TAB j" '(tab-previous :which-key "previous tab")
-    "TAB k" '(tab-next :which-key "next tab")
-    "TAB l" '(tab-list :which-key "list of tabs")
-    "TAB n" '(tab-new :which-key "new tab")
-    "TAB y" '(tab-new :which-key "duplicate tab")
-  "TAB TAB" '(tab-recent :which-key "recent tab")
+     "t"  '(:ignore t :which-key "toggle")
+  "t TAB" '(tab-bar-mode :which-key "toggle tab bar")
 
-    "w"  '(:ignore t :which-key "window")
-    "wh" '(windmove-left :which-key "move left")
-    "wj" '(windmove-down :which-key "move down")
-    "wk" '(windmove-up :which-key "move up")
-    "wl" '(windmove-right :which-key "move right")
-    "wt" '(tear-off-window :which-key "tear off window")
 
-    "vt" '(vterm :which-key "vterm"))
+     "TAB"  '(:ignore t :which-key "tab")
+     "TAB d" '(tab-close :which-key "close tab")
+     "TAB j" '(tab-previous :which-key "previous tab")
+     "TAB k" '(tab-next :which-key "next tab")
+     "TAB l" '(tab-list :which-key "list of tabs")
+     "TAB n" '(tab-new :which-key "new tab")
+     "TAB y" '(tab-new :which-key "duplicate tab")
+   "TAB TAB" '(tab-recent :which-key "recent tab")
 
-   (my-leader-def
-    :keymaps 'evil-insert-state-map
-   )
+     "w"  '(:ignore t :which-key "window")
+     "wh" '(windmove-left :which-key "move left")
+     "wj" '(windmove-down :which-key "move down")
+     "wk" '(windmove-up :which-key "move up")
+     "wl" '(windmove-right :which-key "move right")
+     "wt" '(tear-off-window :which-key "tear off window")
 
-   (my-leader-def
-    :keymaps 'org-mode-map
-    (kbd "<C-c> <C-t>") #'org-todo)
+     "vt" '(vterm :which-key "vterm"))
+
+    (my-leader-def
+     :keymaps 'evil-insert-state-map
+    )
+
+    (my-leader-def
+     :keymaps 'org-mode-map
+     (kbd "<C-c> <C-t>") #'org-todo)
 #+end_src
 
 * THEME
@@ -548,13 +548,20 @@
 ** treemacs
 #+begin_src emacs-lisp
   (use-package treemacs
-    :ensure t
-    :defer t
-    :init)
+    :ensure t  
+    :config
+    (treemacs-git-mode 'simple)
+    (treemacs-follow-mode -1)
+    (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1))))  
+
   (setq treemacs-width 30)
 
   (use-package treemacs-evil
     :after (treemacs evil)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
     :ensure t)
 
   (use-package treemacs-icons-dired
@@ -565,12 +572,10 @@
     :after (treemacs magit)
     :ensure t)
 
-  (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  (use-package treemacs-tab-bar
     :after (treemacs)
     :ensure t
     :config (treemacs-set-scope-type 'Tabs))
-
-  (treemacs 1)
 #+end_src
 
 ** dashboard
