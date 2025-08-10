@@ -285,6 +285,10 @@
      "plb" '(pomodoro-long-break :which-key "pomodoro long break")
      "pp"  '(pomodoro-start :which-key "start pomodoro")
      "ps"  '(org-timer-stop :which-key "stop pomodoro")
+  
+     "r"   '(:ignore t :which-key "bookmarks")
+     "rj"  '(bookmark-jump :which-key "jump to bookmark")
+     "rs"  '(bookmark-set :which-key "set to bookmark")
 
      "s"  '(:ignore t :which-key "search")
      "sg" '(rg-project :which-key "ripgrep project")
