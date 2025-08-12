@@ -76,11 +76,6 @@
 
   ;; change diary file location to ~/org
   (setq diary-file "~/org/diary")
-
-  ;; fix magit for windows
-  (with-eval-after-load 'server
-  (when (eq system-type 'windows-nt)
-    (defun server-ensure-safe-dir (dir) "Noop" t)))
 #+end_src
 
 ** lsp-java windows configuration
@@ -628,6 +623,12 @@
           dashboard-startup-banner 'official)
     (add-hook 'dashboard-after-initialize-hook 'neotree-toggle)
     (dashboard-setup-startup-hook))
+#+end_src
+
+* dirvish
+#+begin_src emacs-lisp
+  (use-package dirvish
+    :ensure t)
 #+end_src
 
 * HOOKS
