@@ -56,7 +56,6 @@
 
   ;; border
   (setq default-frame-alist '((internal-border-width . 12)))
-
   ;; start emacs maximized
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -325,8 +324,8 @@
 * THEME
 ** font
 #+begin_src emacs-lisp
-   (set-frame-font "jetbrains mono 11" nil t)
-;; (set-frame-font "ms gothic 13" nil t)
+  (set-frame-font "jetbrains mono 11" nil t)
+  ;; (set-frame-font "ms gothic 13" nil t)
 #+end_src
 
 ** theme
@@ -606,7 +605,7 @@
           (lambda (&optional dummy)
             (display-line-numbers-mode -1)))
 
-  (setq neo-theme 'icons)
+  (setq neo-theme 'nerd-icons)
 #+end_src
 
 ** dashboard
@@ -625,10 +624,18 @@
     (dashboard-setup-startup-hook))
 #+end_src
 
-* dirvish
+** dirvish
 #+begin_src emacs-lisp
   (use-package dirvish
     :ensure t)
+#+end_src
+
+** nerd-icons
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    :ensure t
+    :custom
+    (nerd-icons-font-family "JetBrainsMono NF"))
 #+end_src
 
 * HOOKS
