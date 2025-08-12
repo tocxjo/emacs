@@ -3,6 +3,7 @@
 
 * MELPA
 #+begin_src emacs-lisp
+  ;;; -*- lexical-binding: t -*-
   (require 'package)
   (setq package-archives
     '(("MELPA"        . "https://melpa.org/packages/")
