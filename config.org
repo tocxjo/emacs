@@ -335,10 +335,14 @@
 
 ** theme
 #+begin_src emacs-lisp
-  (use-package doom-themes)
-  (use-package tao-theme)
-  (use-package nano-theme)
-  (use-package ef-themes)
+  (use-package doom-themes
+    :ensure t)
+  (use-package tao-theme
+    :ensure t)
+  (use-package nano-theme
+    :ensure t)
+  (use-package ef-themes
+    :ensure t)
 
   (setq dark-theme 'nano-dark)
   (setq light-theme 'ef-light)
@@ -377,6 +381,7 @@
     (setq-default pdf-view-display-size 'fit-width))
 
   (use-package pdf-view-restore
+    :ensure t
     :after pdf-tools
     :config
     (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
@@ -407,7 +412,8 @@
 
 ** gcmh (garbage collector)
 #+begin_src emacs-lisp
-  (use-package gcmh)
+  (use-package gcmh
+    :ensure t)
   (gcmh-mode 1)
 #+end_src
 
@@ -646,7 +652,8 @@
 * HOOKS
 ** org-mode
 #+begin_src emacs-lisp
-  (use-package org-fragtog)
+  (use-package org-fragtog
+    :ensure t)
   (add-hook 'org-mode-hook 'org-fragtog-mode)
   (add-hook 'org-mode-hook 'org-display-inline-images)
 #+end_src
@@ -690,7 +697,8 @@
 
 ** deft
 #+begin_src emacs-lisp
-  (use-package deft)
+  (use-package deft
+    :ensure t)
   (setq deft-directory "~/org")
 #+end_src
 
