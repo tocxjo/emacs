@@ -173,6 +173,11 @@
     (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
+
+  (use-package evil-smartparens
+    :ensure t
+    :config
+    (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 #+end_src
 
 * GENERAL KEYBINDINGS
