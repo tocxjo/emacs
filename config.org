@@ -654,6 +654,14 @@
     (nerd-icons-font-family "JetBrainsMono NF"))
 #+end_src
 
+** yafolding
+#+begin_src emacs-lisp
+  (use-package yafolding
+      :ensure t
+      :config
+      :hook (prog-mode . yafolding-mode))
+#+end_src
+
 * HOOKS
 ** org-mode
 #+begin_src emacs-lisp
