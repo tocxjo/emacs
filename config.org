@@ -491,38 +491,39 @@
 
 ** lsp-mode
 #+begin_src emacs-lisp
-(use-package lsp-mode
-  :ensure t
-  :hook ((python-mode . lsp)
-         (c++-mode . lsp)
-         (java-mode . lsp)
-         (js-mode . lsp)
-         (html-mode . lsp)
-         (css-mode . lsp)
-         (go-mode . lsp))
-  :commands lsp)
+  (use-package lsp-mode
+    :ensure t
+    :hook ((python-mode . lsp)
+           (c++-mode . lsp)
+           (java-mode . lsp)
+           (js-mode . lsp)
+           (html-mode . lsp)
+           (css-mode . lsp)
+           (go-mode . lsp))
+    :commands lsp)
 
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :config
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-doc-enable t
-        lsp-ui-imenu-enable t)
-  :hook (lsp-mode . lsp-ui-mode))
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode
+    :config
+    (setq lsp-ui-sideline-enable t
+          lsp-ui-doc-enable t
+          lsp-ui-imenu-enable t)
+    :hook (lsp-mode . lsp-ui-mode))
 
-(use-package company
-  :ensure t
-  :after lsp-mode
-  :config
-  (add-hook 'lsp-mode-hook 'company-mode))
+  (use-package company
+    :ensure t
+    :after lsp-mode
+    :config
+    (setq company-idle-delay 0.01)
+    (add-hook 'lsp-mode-hook 'company-mode))
 
-(use-package dap-mode
-  :ensure t
-  :after lsp-mode
-  :config
-  (dap-mode 1)
-  (dap-ui-mode 1))
+  (use-package dap-mode
+    :ensure t
+    :after lsp-mode
+    :config
+    (dap-mode 1)
+    (dap-ui-mode 1))
 #+end_src
 
 ** company-mode
