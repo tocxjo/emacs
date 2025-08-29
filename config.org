@@ -94,18 +94,13 @@
    (add-hook
     'go-mode-hook
     (lambda ()
-      (push '("error" . ?∇) prettify-symbols-alist)
-      (push '("err" . ?⊙) prettify-symbols-alist)
       (push '("exists" . ?∃) prettify-symbols-alist)
       (push '(":= range" . ?∈) prettify-symbols-alist)
-      (push '("ok" . ?✓) prettify-symbols-alist)
       (push '("==" . ?≡) prettify-symbols-alist)
-      (push '(":=" . ?≔) prettify-symbols-alist)
       (push '(">=" . ?≥) prettify-symbols-alist)
       (push '("<=" . ?≤) prettify-symbols-alist)
       (push '("<-" . ?←) prettify-symbols-alist)
       (push '("!=" . ?≠) prettify-symbols-alist)
-      (push '("..." . ?…) prettify-symbols-alist)
       (push '("&&" . ?∧) prettify-symbols-alist)
       (push '("||" . ?∨) prettify-symbols-alist)
       (push '("!" . ?¬) prettify-symbols-alist)
