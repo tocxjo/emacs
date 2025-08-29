@@ -349,8 +349,8 @@
   (use-package ef-themes
     :ensure t)
 
-  (setq dark-theme 'nano-dark)
-  (setq light-theme 'ef-light)
+  (setq dark-theme 'doom-tomorrow-night)
+  (setq light-theme 'doom-tomorrow-day)
 
   (defun night-mode ()
     (interactive)
@@ -493,6 +493,7 @@
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :ensure t
+    :defer t
     :hook ((python-mode . lsp)
            (c++-mode . lsp)
            (java-mode . lsp)
