@@ -426,17 +426,23 @@
 
 ** jabber
 #+begin_src emacs-lisp
-  (use-package jabber
-      :ensure t)
+; (use-package jabber
+;   :ensure nil
+;   :vc (:url "https://codeberg.org/emacs-jabber/emacs-jabber.git"
+;             :branch "master"
+;             :rev :newest
+;             :lisp-dir "lisp"
+;             :doc "README.org"
+;             :make "module"))
 
-  (setq jabber-account-list
-      `((,(getenv "JABBER_USER")
-         (:password . ,(getenv "JABBER_PASSWORD"))
-         (:network-server . ,(getenv "JABBER_SERVER"))
-         (:connection-type . ssl))))
+; (setq jabber-account-list
+;     `((,(getenv "JABBER_USER")
+;        (:password . ,(getenv "JABBER_PASSWORD"))
+;        (:network-server . ,(getenv "JABBER_SERVER"))
+;        (:connection-type . ssl))))
 
-  (setq jabber-auto-reconnect t)
-  (setq jabber-history-enabled t)
+; (setq jabber-auto-reconnect t)
+; (setq jabber-history-enabled t)
 #+end_src
 
 ** smartparens
