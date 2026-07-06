@@ -705,6 +705,28 @@
 #+begin_src emacs-lisp
 (setq org-agenda-files '("~/org"))
 #+end_src
+** org-crypt 
+#+begin_src emacs-lisp
+  (require 'epa-file)
+  (epa-file-enable)
+  (setopt epa-file-select-keys nil)
+
+  (require 'org-crypt)
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance '("crypt"))
+  (setq org-crypt-key nil)
+#+end_src
+
+** org-journal
+#+begin_src emacs-lisp
+  (use-package org-journal
+    :ensure t
+    :custom
+    (org-journal-dir "~/org/diario/")
+    (org-journal-file-format "%Y-%m-%d.org.gpg")
+    (org-journal-encrypt-journal t))
+#+end_src
+
 
 * DIRECTORY SHORTCUTS
 #+begin_src emacs-lisp
