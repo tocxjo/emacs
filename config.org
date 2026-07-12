@@ -29,6 +29,9 @@
   (setq-default tab-width 4)
   (setq-default fill-column 80)
 
+  (add-to-list 'initial-frame-alist '(width . 960))
+  (add-to-list 'initial-frame-alist '(height . 540))
+
   ;; relative line numbers
   (global-display-line-numbers-mode t)
   (setq display-line-numbers-type 'relative)
@@ -56,8 +59,9 @@
 
   ;; border
   (setq default-frame-alist '((internal-border-width . 12)))
+
   ;; start emacs maximized
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
   ;; opacity
   (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
@@ -259,6 +263,7 @@
      "nf" '(org-roam-node-find :which-key "find node")
      "ng" '(org-roam-ui-open :which-key "node graph")
      "ni" '(org-roam-node-insert :which-key "insert node")
+     "nj" '(org-journal-new-entry :which-key "insert new entry for journal")
      "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
      "nt" '(org-roam-tag-add :which-key "add tag")
 
@@ -285,7 +290,7 @@
      "plb" '(pomodoro-long-break :which-key "pomodoro long break")
      "pp"  '(pomodoro-start :which-key "start pomodoro")
      "ps"  '(org-timer-stop :which-key "stop pomodoro")
-  
+
      "r"   '(:ignore t :which-key "bookmarks")
      "rj"  '(bookmark-jump :which-key "jump to bookmark")
      "rs"  '(bookmark-set :which-key "set to bookmark")
@@ -329,8 +334,22 @@
 * THEME
 ** font
 #+begin_src emacs-lisp
-  (set-frame-font "jetbrains mono 11" nil t)
-  ;; (set-frame-font "ms gothic 13" nil t)
+ ;; general
+ (set-face-attribute 'default nil
+                     :family "EPSON 太丸ゴシック体Ｂ"
+                     :height 120)
+
+ ;; serif
+ (set-face-attribute 'variable-pitch nil
+                     :family "iA Writer Quattro"
+                     :height 1.1)
+
+ ;; monospace
+ (set-face-attribute 'fixed-pitch nil
+                     :family "JetBrains Mono Regular")
+
+ (use-package mixed-pitch
+   :ensure t)
 #+end_src
 
 ** theme
@@ -344,7 +363,7 @@
   (use-package ef-themes
     :ensure t)
 
-  (setq dark-theme 'doom-tomorrow-night)
+  (setq dark-theme 'tao-yin)
   (setq light-theme 'doom-tomorrow-day)
 
   (defun night-mode ()
@@ -367,7 +386,8 @@
           (night-mode)
         (day-mode))))
 
-  (toggle-day-night-mode)
+; (toggle-day-night-mode)
+  (night-mode)
 #+end_src
 
 * PACKAGES
@@ -580,18 +600,16 @@
 ** neotree
 #+begin_src emacs-lisp
   (use-package neotree
-    :ensure t)
-
-  (use-package neotree
-    :after (neotree)
-    :ensure t)
+    :ensure t
+    :config
+    (setq neo-theme 'nerd-icons)
 
   ;; disable line numbers in neotree's window
   (add-hook 'neo-after-create-hook
           (lambda (&optional dummy)
-            (display-line-numbers-mode -1)))
+            (display-line-numbers-mode -1)
+            (other-window 1))))
 
-  (setq neo-theme 'nerd-icons)
 #+end_src
 
 ** dashboard
@@ -705,28 +723,16 @@
 #+begin_src emacs-lisp
 (setq org-agenda-files '("~/org"))
 #+end_src
-** org-crypt 
-#+begin_src emacs-lisp
-  (require 'epa-file)
-  (epa-file-enable)
-  (setopt epa-file-select-keys nil)
-
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance '("crypt"))
-  (setq org-crypt-key nil)
-#+end_src
 
 ** org-journal
 #+begin_src emacs-lisp
-  (use-package org-journal
-    :ensure t
-    :custom
-    (org-journal-dir "~/org/diario/")
-    (org-journal-file-format "%Y-%m-%d.org.gpg")
-    (org-journal-encrypt-journal t))
+(use-package org-journal
+  :ensure t
+  :custom
+  (org-journal-dir "~/org/diario/")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-enable-encryption t))
 #+end_src
-
 
 * DIRECTORY SHORTCUTS
 #+begin_src emacs-lisp
