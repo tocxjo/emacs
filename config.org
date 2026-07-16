@@ -1,367 +1,120 @@
 #+AUTHOR: lemon / tocxjo
 #+OPTIONS: toc:nil
 
-* MELPA
+* PACKAGE MANAGEMENT
 #+begin_src emacs-lisp
   ;;; -*- lexical-binding: t -*-
   (require 'package)
   (setq package-archives
-    '(("MELPA"        . "https://melpa.org/packages/")
-      ("GNU ELPA"     . "https://elpa.gnu.org/packages/")))
+        '(("MELPA"    . "https://melpa.org/packages/")
+          ("GNU ELPA" . "https://elpa.gnu.org/packages/")))
   (package-initialize)
 #+end_src
 
-* EMACS CONFIG
+* CORE SETTINGS
+** general behaviour
 #+begin_src emacs-lisp
-  ;; disable backup files
+  ;; no backup files, no startup screen
   (setq make-backup-files nil)
-
-  ;; disable basic UI
-  ;; (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-
-  ;; disable cursor blink
-  (blink-cursor-mode -1)
-
-  ;; better visualization
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
-  (setq-default fill-column 80)
-
-  (add-to-list 'initial-frame-alist '(width . 960))
-  (add-to-list 'initial-frame-alist '(height . 540))
-
-  ;; relative line numbers
-  (global-display-line-numbers-mode t)
-  (setq display-line-numbers-type 'relative)
-
-  ;; ignore case while searching
-  (setq case-fold-search t)
-  (setq grep-command "rg --no-heading --vimgrep --smart-case ")
-
-  ;; no startup screen and no scratch
   (setq inhibit-startup-screen t)
 
-  ;; enable tab-bar mode
-  (tab-bar-mode 1)
+  ;; y/n instead of yes/no
+  (defalias 'yes-or-no-p 'y-or-n-p)
 
-  (set-language-environment "Japanese")
+  ;; search & grep
+  (setq case-fold-search t)
+  (setq grep-command "rg --no-heading --vimgrep --smart-case ")
+#+end_src
 
-  ;; set coding system to UTF-8
+** encoding
+#+begin_src emacs-lisp
   (set-language-environment "UTF-8")
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
   (setq buffer-file-coding-system 'utf-8)
+#+end_src
 
-  ;; alias for y/n/p
-  (defalias 'yes-or-no-p 'y-or-n-p)
+** UI / editing defaults
+#+begin_src emacs-lisp
+  ;; chrome
+  ;; (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (blink-cursor-mode -1)
+  (tab-bar-mode 1)
 
-  ;; border
+  ;; frame geometry
+  (add-to-list 'initial-frame-alist '(width . 960))
+  (add-to-list 'initial-frame-alist '(height . 540))
   (setq default-frame-alist '((internal-border-width . 12)))
-
-  ;; start emacs maximized
-  ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-  ;; opacity
+  ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 
-  ;; pomodoro sound
-  (setq org-clock-sound "clave.wav")
+  ;; line numbers
+  (global-display-line-numbers-mode t)
+  (setq display-line-numbers-type 'relative)
 
-  ;; tramp stuff
+  ;; indentation / fill
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+  (setq-default fill-column 80)
+#+end_src
+
+** org-mode base settings
+#+begin_src emacs-lisp
+  (setq org-hide-emphasis-markers t)
+  (setq org-clock-sound "clave.wav")
+  (setq diary-file "~/org/diary")
+#+end_src
+
+** tramp
+#+begin_src emacs-lisp
   (setq tramp-default-method "ssh")
   (setq tramp-verbose 10)
-  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='~/.ssh/ssh-%%r@%%h:%%p' -o ControlPersist=yes")
+#+end_src
 
-  ;; hide emphasis markers in org mode
-  (setq org-hide-emphasis-markers t)
-
-  ;; change diary file location to ~/org
-  (setq diary-file "~/org/diary")
-
-  ;; fix magit for windows
+** windows compatibility
+#+begin_src emacs-lisp
+  ;; fix magit on windows
   (with-eval-after-load 'server
     (when (eq system-type 'windows-nt)
       (defun server-ensure-safe-dir (dir) "Noop" t)))
-#+end_src
 
-** lsp-java windows configuration
-#+begin_src emacs-lisp
+  ;; lsp-java needs an explicit JDK path on windows
   (when (eq system-type 'windows-nt)
     (setenv "JAVA_HOME" "C:/Program Files/Java/jdk-21/")
     (setq lsp-java-java-path "C:/Program Files/Java/jdk-21/bin/java.exe"))
 #+end_src
 
-** prettify symbols
-#+begin_src emacs-lisp
-   (add-hook
-    'go-mode-hook
-    (lambda ()
-      (push '("exists" . ?∃) prettify-symbols-alist)
-      (push '(":= range" . ?∈) prettify-symbols-alist)
-      (push '("==" . ?≡) prettify-symbols-alist)
-      (push '(">=" . ?≥) prettify-symbols-alist)
-      (push '("<=" . ?≤) prettify-symbols-alist)
-      (push '("<-" . ?←) prettify-symbols-alist)
-      (push '("!=" . ?≠) prettify-symbols-alist)
-      (push '("&&" . ?∧) prettify-symbols-alist)
-      (push '("||" . ?∨) prettify-symbols-alist)
-      (push '("!" . ?¬) prettify-symbols-alist)
-      ))
-
-   (add-hook
-  'c-mode-common-hook 
-  (lambda ()
-    (push '("==" . ?≡) prettify-symbols-alist)
-    (push '("!=" . ?≠) prettify-symbols-alist)
-    (push '(">=" . ?≥) prettify-symbols-alist)
-    (push '("<=" . ?≤) prettify-symbols-alist)
-    (push '("&&" . ?∧) prettify-symbols-alist)
-    (push '("||" . ?∨) prettify-symbols-alist)
-    (push '("!" . ?¬) prettify-symbols-alist)
-    (push '("->" . ?→) prettify-symbols-alist)
-    (push '("*" . ?∗) prettify-symbols-alist) ; Para punteros
-    ))
-
-   (add-hook
-  'java-mode-common-hook 
-  (lambda ()
-    (push '("==" . ?≡) prettify-symbols-alist)
-    (push '("!=" . ?≠) prettify-symbols-alist)
-    (push '(">=" . ?≥) prettify-symbols-alist)
-    (push '("<=" . ?≤) prettify-symbols-alist)
-    (push '("&&" . ?∧) prettify-symbols-alist)
-    (push '("||" . ?∨) prettify-symbols-alist)
-    (push '("!" . ?¬) prettify-symbols-alist)
-    (push '("->" . ?→) prettify-symbols-alist)
-    (push '("*" . ?∗) prettify-symbols-alist) ; Para punteros
-    ))
-
-   (global-prettify-symbols-mode 't)
-#+end_src
-
-* EVIL MODE
-#+begin_src emacs-lisp
-  (use-package evil
-    :ensure t
-    :init
-    (setq evil-want-keybinding nil)
-    :config
-    ;; (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-    ;; (evil-define-key 'visual org-mode-map (kbd "TAB") 'org-cycle)
-    ;; (evil-define-key 'motion org-mode-map (kbd "TAB") 'org-cycle)
-    ;; (with-eval-after-load 'evil-maps
-    ;;   (define-key evil-motion-state-map (kbd "SPC") nil)
-    ;;   (define-key evil-motion-state-map (kbd "RET") nil)
-    ;;   (define-key evil-motion-state-map (kbd "TAB") nil))
-    (define-key evil-motion-state-map (kbd "RET") nil)
-    (evil-mode 1)
-    (evil-set-undo-system 'undo-redo))
-
-  (use-package evil-collection
-    :after evil
-    :ensure t
-    :config
-    (evil-collection-init))
-
-  (use-package evil-org
-    :ensure t
-    :hook (org-mode . evil-org-mode)
-    :config
-    (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
-
-  (use-package evil-smartparens
-    :ensure t
-    :config
-    (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
-#+end_src
-
-* GENERAL KEYBINDINGS
-** creating functions for keybindings
-#+begin_src emacs-lisp
-  (defun pomodoro-start ()
-    (interactive)
-    (org-timer-set-timer 25))
-
-  (defun pomodoro-long-break ()
-    (interactive)
-    (org-timer-set-timer 15))
-
-  (defun goto-config ()
-    (interactive)
-    (find-file (expand-file-name "config.org" user-emacs-directory)))
-
-  (defun pomodoro-break ()
-    (interactive)
-    (org-timer-set-timer 5))
-
-  (defun reload-config ()
-    (interactive)
-    (load-file (expand-file-name "init.el" user-emacs-directory)))
-#+end_src
-
-** define keybindings
-#+begin_src emacs-lisp
-    (use-package general
-      :ensure t)
-
-    (general-create-definer my-leader-def
-      :prefix "SPC"
-      :non-normal-prefix "M-SPC")
-
-    (general-define-key
-     :keymaps 'evil-insert-state-map
-     "SPC" 'self-insert-command)
-
-    ;; f8 to show treemacs (NOT USED)
-    ;; (global-set-key (kbd "<f8>") 'treemacs)
-
-    ;; f8 to show neotree
-    (global-set-key (kbd "<f8>") 'neotree-toggle)
-
-    (my-leader-def
-     :keymaps 'evil-normal-state-map
-     "f"  '(:ignore t :which-key "file")
-     "fc" '(compile :which-key "compile file")
-     "fd" '(find-file-in-directory :which-key "find file in directory")
-     "ff" '(find-file :which-key "find file")
-     "fp" '(goto-config :which-key "open config.org")
-     "fr" '(recentf :which-key "recent files")
-     "fs" '(save-buffer :which-key "save file")
-
-     "."  '(find-file :which-key "find file")
-
-     "b"  '(:ignore t :which-key "buffer")
-     "bb" '(switch-to-buffer :which-key "switch to buffer")
-     "bd" '(kill-buffer :which-key "delete buffer")
-     "bj" '(previous-buffer :which-key "previous buffer")
-     "bk" '(next-buffer :which-key "next buffer")
-     "bl" '(buffer-menu :which-key "buffer menu")
-
-     "g"  '(:ignore t :which-key "git")
-     "gC" '(magit-clone :which-key "clone git repo")
-     "gc" '(magit-commit :which-key "commit git message")
-     "gd" '(magit-diff :which-key "show git diff")
-     "gg" '(magit-status :which-key "open git status")
-     "gl" '(magit-log :which-key "open git log")
-     "gp" '(magit-push :which-key "push git repo")
-     "gr" '(magit-run :which-key "run git command")
-     "gs" '(magit-stage :which-key "stage git changes")
-
-     "h"  '(:ignore t :which-key "help")
-     "hf" '(describe-function :which-key "describe function")
-     "hm" '(man :which-key "manual entries")
-     "hr" '(reload-config :which-key "reload init.el")
-
-     "ht" '(consult-theme :which-key "load theme")
-     "hv" '(describe-variable :which-key "describe variable")
-
-     "n"  '(:ignore t :which-key "org-roam nodes")
-     "nf" '(org-roam-node-find :which-key "find node")
-     "ng" '(org-roam-ui-open :which-key "node graph")
-     "ni" '(org-roam-node-insert :which-key "insert node")
-     "nj" '(org-journal-new-entry :which-key "insert new entry for journal")
-     "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
-     "nt" '(org-roam-tag-add :which-key "add tag")
-
-     "o"  '(:ignore t :which-key "org-mode commands")
-     "oa" '(org-agenda :which-key "open org-agenda")
-     "oc" '(org-goto-calendar :which-key "open org-calendar")
-     "oe" '(org-export-dispatch :which-key "export to:")
-     "oi" '(:ignore t :which-key "insert")
-     "oi," '(org-insert-structure-template :which-key "insert structure")
-     "oi." '(org-time-stamp :which-key "insert timestamp")
-     "oid" '(org-deadline :which-key "insert deadline")
-     "oih" '(org-insert-heading :which-key "insert heading")
-     "oil" '(org-insert-link :which-key "insert link")
-     "oip" '(org-set-property :which-key "insert property")
-     "ois" '(org-schedule :which-key "insert schedule")
-     "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
-     "oo" '(org-open-at-point :which-key "open link")
-     "os" '(org-sort :which-key "sort current subtree or list")
-
-     "p"   '(:ignore t :which-key "pomodoro")
-     "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
-     "pb"  '(pomodoro-break :which-key "pomodoro break")
-     "pl"  '(:ignore t :which-key "long break")
-     "plb" '(pomodoro-long-break :which-key "pomodoro long break")
-     "pp"  '(pomodoro-start :which-key "start pomodoro")
-     "ps"  '(org-timer-stop :which-key "stop pomodoro")
-
-     "r"   '(:ignore t :which-key "bookmarks")
-     "rj"  '(bookmark-jump :which-key "jump to bookmark")
-     "rs"  '(bookmark-set :which-key "set to bookmark")
-
-     "s"  '(:ignore t :which-key "search")
-     "sg" '(rg-project :which-key "ripgrep project")
-     "so" '(sort-lines :which-key "sort lines")
-     "ss" '(swiper :which-key "swiper")
-
-     "t"  '(:ignore t :which-key "toggle")
-  "t TAB" '(tab-bar-mode :which-key "toggle tab bar")
-
-
-     "TAB"  '(:ignore t :which-key "tab")
-     "TAB d" '(tab-close :which-key "close tab")
-     "TAB j" '(tab-previous :which-key "previous tab")
-     "TAB k" '(tab-next :which-key "next tab")
-     "TAB l" '(tab-list :which-key "list of tabs")
-     "TAB n" '(tab-new :which-key "new tab")
-     "TAB y" '(tab-new :which-key "duplicate tab")
-   "TAB TAB" '(tab-recent :which-key "recent tab")
-
-     "w"  '(:ignore t :which-key "window")
-     "wh" '(windmove-left :which-key "move left")
-     "wj" '(windmove-down :which-key "move down")
-     "wk" '(windmove-up :which-key "move up")
-     "wl" '(windmove-right :which-key "move right")
-     "wt" '(tear-off-window :which-key "tear off window")
-
-     "vt" '(vterm :which-key "vterm"))
-
-    (my-leader-def
-     :keymaps 'evil-insert-state-map
-    )
-
-    (my-leader-def
-     :keymaps 'org-mode-map
-     (kbd "<C-c> <C-t>") #'org-todo)
-#+end_src
-
 * THEME
-** font
+** fonts
 #+begin_src emacs-lisp
- ;; general
- (set-face-attribute 'default nil
-                     :family "EPSON 太丸ゴシック体Ｂ"
-                     :height 120)
+  ;; general
+  (set-face-attribute 'default nil
+                       :family "EPSON 太丸ゴシック体Ｂ"
+                       :height 120)
 
- ;; serif
- (set-face-attribute 'variable-pitch nil
-                     :family "iA Writer Quattro"
-                     :height 1.1)
+  ;; serif / variable pitch
+  (set-face-attribute 'variable-pitch nil
+                       :family "iA Writer Quattro"
+                       :height 1.1)
 
- ;; monospace
- (set-face-attribute 'fixed-pitch nil
-                     :family "JetBrains Mono Regular")
+  ;; monospace
+  (set-face-attribute 'fixed-pitch nil
+                       :family "JetBrains Mono Regular")
 
- (use-package mixed-pitch
-   :ensure t)
+  (use-package mixed-pitch
+    :ensure t)
 #+end_src
 
-** theme
+** day / night themes
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    :ensure t)
-  (use-package tao-theme
-    :ensure t)
-  (use-package nano-theme
-    :ensure t)
-  (use-package ef-themes
-    :ensure t)
+  (use-package doom-themes :ensure t)
+  (use-package tao-theme   :ensure t)
+  (use-package nano-theme  :ensure t)
+  (use-package ef-themes   :ensure t)
 
   (setq dark-theme 'tao-yin)
   (setq light-theme 'doom-tomorrow-day)
@@ -386,178 +139,256 @@
           (night-mode)
         (day-mode))))
 
-; (toggle-day-night-mode)
+  ;; (toggle-day-night-mode)
   (night-mode)
 #+end_src
 
-* PACKAGES
-** pdf
+** prettify symbols
 #+begin_src emacs-lisp
-  (use-package pdf-tools
-    :ensure t
-    :pin manual
-    :config
-    (pdf-tools-install)
-    (setq-default pdf-view-display-size 'fit-width))
+  (defun my/prettify-symbols-common ()
+    (push '("==" . ?≡) prettify-symbols-alist)
+    (push '("!=" . ?≠) prettify-symbols-alist)
+    (push '(">=" . ?≥) prettify-symbols-alist)
+    (push '("<=" . ?≤) prettify-symbols-alist)
+    (push '("&&" . ?∧) prettify-symbols-alist)
+    (push '("||" . ?∨) prettify-symbols-alist)
+    (push '("!"  . ?¬) prettify-symbols-alist))
 
-  (use-package pdf-view-restore
-    :ensure t
-    :after pdf-tools
-    :config
-    (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (my/prettify-symbols-common)
+              (push '("exists"    . ?∃) prettify-symbols-alist)
+              (push '(":= range"  . ?∈) prettify-symbols-alist)
+              (push '("<-"        . ?←) prettify-symbols-alist)))
+
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (my/prettify-symbols-common)
+              (push '("->" . ?→) prettify-symbols-alist)
+              (push '("*"  . ?∗) prettify-symbols-alist)))
+
+  (add-hook 'java-mode-common-hook
+            (lambda ()
+              (my/prettify-symbols-common)
+              (push '("->" . ?→) prettify-symbols-alist)
+              (push '("*"  . ?∗) prettify-symbols-alist)))
+
+  (global-prettify-symbols-mode t)
 #+end_src
 
-** auto-complete
+* EVIL MODE
 #+begin_src emacs-lisp
-(use-package auto-complete
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-keybinding nil)
+    :config
+    (define-key evil-motion-state-map (kbd "RET") nil)
+    (evil-mode 1)
+    (evil-set-undo-system 'undo-redo))
+
+  (use-package evil-collection
+    :ensure t
+    :after evil
+    :config
+    (evil-collection-init))
+
+  (use-package evil-org
+    :ensure t
+    :hook (org-mode . evil-org-mode)
+    :config
+    (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
+
+  (use-package evil-smartparens
     :ensure t
     :config
-    (ac-config-default))
+    (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 #+end_src
 
-** flycheck (syntax-checking)
+* KEYBINDINGS
+** helper functions
 #+begin_src emacs-lisp
-(use-package flycheck
-     :ensure t)
+  (defun pomodoro-start ()
+    (interactive)
+    (org-timer-set-timer 25))
+
+  (defun pomodoro-break ()
+    (interactive)
+    (org-timer-set-timer 5))
+
+  (defun pomodoro-long-break ()
+    (interactive)
+    (org-timer-set-timer 15))
+
+  (defun goto-config ()
+    (interactive)
+    (find-file (expand-file-name "config.org" user-emacs-directory)))
+
+  (defun reload-config ()
+    (interactive)
+    (load-file (expand-file-name "init.el" user-emacs-directory)))
 #+end_src
 
-** elcord (rpc)
+** leader key (general.el)
 #+begin_src emacs-lisp
-(use-package elcord
-  :ensure t
-  :config
-  (setq elcord-client-id "1333674662613356554")
-  (elcord-mode 1))
-#+end_src emacs-lisp
-
-** gcmh (garbage collector)
-#+begin_src emacs-lisp
-  (use-package gcmh
+  (use-package general
     :ensure t)
-  (gcmh-mode 1)
+
+  (general-create-definer my-leader-def
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC")
+
+  (general-define-key
+   :keymaps 'evil-insert-state-map
+   "SPC" 'self-insert-command)
+
+  ;; (global-set-key (kbd "<f8>") 'treemacs)
+  (global-set-key (kbd "<f8>") 'neotree-toggle)
+
+  (my-leader-def
+    :keymaps 'evil-normal-state-map
+
+    "."  '(find-file :which-key "find file")
+    "vt" '(vterm :which-key "vterm")
+
+    "f"  '(:ignore t :which-key "file")
+    "fc" '(compile :which-key "compile file")
+    "fd" '(find-file-in-directory :which-key "find file in directory")
+    "ff" '(find-file :which-key "find file")
+    "fp" '(goto-config :which-key "open config.org")
+    "fr" '(recentf :which-key "recent files")
+    "fs" '(save-buffer :which-key "save file")
+
+    "b"  '(:ignore t :which-key "buffer")
+    "bb" '(switch-to-buffer :which-key "switch to buffer")
+    "bd" '(kill-buffer :which-key "delete buffer")
+    "bj" '(previous-buffer :which-key "previous buffer")
+    "bk" '(next-buffer :which-key "next buffer")
+    "bl" '(buffer-menu :which-key "buffer menu")
+
+    "g"  '(:ignore t :which-key "git")
+    "gC" '(magit-clone :which-key "clone git repo")
+    "gc" '(magit-commit :which-key "commit git message")
+    "gd" '(magit-diff :which-key "show git diff")
+    "gg" '(magit-status :which-key "open git status")
+    "gl" '(magit-log :which-key "open git log")
+    "gp" '(magit-push :which-key "push git repo")
+    "gr" '(magit-run :which-key "run git command")
+    "gs" '(magit-stage :which-key "stage git changes")
+
+    "h"  '(:ignore t :which-key "help")
+    "hf" '(describe-function :which-key "describe function")
+    "hm" '(man :which-key "manual entries")
+    "hr" '(reload-config :which-key "reload init.el")
+    "ht" '(consult-theme :which-key "load theme")
+    "hv" '(describe-variable :which-key "describe variable")
+
+    "n"  '(:ignore t :which-key "org-roam nodes")
+    "nf" '(org-roam-node-find :which-key "find node")
+    "ng" '(org-roam-ui-open :which-key "node graph")
+    "ni" '(org-roam-node-insert :which-key "insert node")
+    "nj" '(org-journal-new-entry :which-key "insert new entry for journal")
+    "nl" '(org-roam-buffer-toggle :which-key "toggle backlink buffer")
+    "nt" '(org-roam-tag-add :which-key "add tag")
+
+    "o"  '(:ignore t :which-key "org-mode commands")
+    "oa" '(org-agenda :which-key "open org-agenda")
+    "oc" '(org-goto-calendar :which-key "open org-calendar")
+    "oe" '(org-export-dispatch :which-key "export to:")
+    "oo" '(org-open-at-point :which-key "open link")
+    "os" '(org-sort :which-key "sort current subtree or list")
+    "oi"  '(:ignore t :which-key "insert")
+    "oi," '(org-insert-structure-template :which-key "insert structure")
+    "oi." '(org-time-stamp :which-key "insert timestamp")
+    "oid" '(org-deadline :which-key "insert deadline")
+    "oih" '(org-insert-heading :which-key "insert heading")
+    "oil" '(org-insert-link :which-key "insert link")
+    "oip" '(org-set-property :which-key "insert property")
+    "ois" '(org-schedule :which-key "insert schedule")
+    "oit" '(org-table-create-or-convert-from-region :which-key "insert table from region")
+
+    "p"   '(:ignore t :which-key "pomodoro")
+    "p."  '(org-timer-pause-or-continue :which-key "pause or resume pomodoro")
+    "pp"  '(pomodoro-start :which-key "start pomodoro")
+    "pb"  '(pomodoro-break :which-key "pomodoro break")
+    "ps"  '(org-timer-stop :which-key "stop pomodoro")
+    "pl"  '(:ignore t :which-key "long break")
+    "plb" '(pomodoro-long-break :which-key "pomodoro long break")
+
+    "r"  '(:ignore t :which-key "bookmarks")
+    "rj" '(bookmark-jump :which-key "jump to bookmark")
+    "rs" '(bookmark-set :which-key "set to bookmark")
+
+    "s"  '(:ignore t :which-key "search")
+    "sg" '(rg-project :which-key "ripgrep project")
+    "so" '(sort-lines :which-key "sort lines")
+    "ss" '(swiper :which-key "swiper")
+
+    "t"     '(:ignore t :which-key "toggle")
+    "t TAB" '(tab-bar-mode :which-key "toggle tab bar")
+
+    "TAB"     '(:ignore t :which-key "tab")
+    "TAB TAB" '(tab-recent :which-key "recent tab")
+    "TAB d"   '(tab-close :which-key "close tab")
+    "TAB j"   '(tab-previous :which-key "previous tab")
+    "TAB k"   '(tab-next :which-key "next tab")
+    "TAB l"   '(tab-list :which-key "list of tabs")
+    "TAB n"   '(tab-new :which-key "new tab")
+    "TAB y"   '(tab-new :which-key "duplicate tab")
+
+    "w"  '(:ignore t :which-key "window")
+    "wh" '(windmove-left :which-key "move left")
+    "wj" '(windmove-down :which-key "move down")
+    "wk" '(windmove-up :which-key "move up")
+    "wl" '(windmove-right :which-key "move right")
+    "wt" '(tear-off-window :which-key "tear off window"))
+
+  (my-leader-def
+    :keymaps 'org-mode-map
+    (kbd "<C-c> <C-t>") #'org-todo)
 #+end_src
 
-** keepass
-#+begin_src emacs-lisp
-  (use-package keepass-mode
-    :ensure t
-    :config)
-#+end_src
-
-** jabber
-#+begin_src emacs-lisp
-; (use-package jabber
-;   :ensure nil
-;   :vc (:url "https://codeberg.org/emacs-jabber/emacs-jabber.git"
-;             :branch "master"
-;             :rev :newest
-;             :lisp-dir "lisp"
-;             :doc "README.org"
-;             :make "module"))
-
-; (setq jabber-account-list
-;     `((,(getenv "JABBER_USER")
-;        (:password . ,(getenv "JABBER_PASSWORD"))
-;        (:network-server . ,(getenv "JABBER_SERVER"))
-;        (:connection-type . ssl))))
-
-; (setq jabber-auto-reconnect t)
-; (setq jabber-history-enabled t)
-#+end_src
-
-** smartparens
-#+begin_src emacs-lisp
-  (use-package smartparens
-    :ensure smartparens
-    :config
-  (smartparens-global-mode t))
-#+end_src
-
-** indentation
-#+begin_src emacs-lisp
-(use-package aggressive-indent
-    :ensure t
-    :config
-    (global-aggressive-indent-mode t))
-#+end_src
-
-** which-key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :ensure t
-    :config
-    (setq which-key-side-window-location 'bottom)
-    (setq which-key-max-display-columns nil)
-    (setq which-key-min-display-lines 1)
-    (which-key-mode)
-    (setq which-key-idle-delay 0))
-#+end_src
-
-** popup
+* COMPLETION FRAMEWORK
 #+begin_src emacs-lisp
   (use-package vertico
     :ensure t
     :init
     (vertico-mode))
 
-  (use-package consult
+  (use-package orderless
     :ensure t
-    :config)
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+
+  (use-package consult
+    :ensure t)
 
   (use-package marginalia
     :ensure t
     :init
     (marginalia-mode))
+
+  (use-package which-key
+    :ensure t
+    :config
+    (setq which-key-side-window-location 'bottom)
+    (setq which-key-max-display-columns nil)
+    (setq which-key-min-display-lines 1)
+    (setq which-key-idle-delay 0)
+    (which-key-mode))
 #+end_src
 
-** lsp-mode
+* IN-BUFFER COMPLETION & SNIPPETS
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-    :ensure t
-    :defer t
-    :hook ((python-mode . lsp)
-           (c++-mode . lsp)
-           (java-mode . lsp)
-           (js-mode . lsp)
-           (html-mode . lsp)
-           (css-mode . lsp)
-           (go-mode . lsp))
-    :commands lsp)
-
-  (use-package lsp-ui
-    :ensure t
-    :after lsp-mode
-    :config
-    (setq lsp-ui-sideline-enable t
-          lsp-ui-doc-enable t
-          lsp-ui-imenu-enable t)
-    :hook (lsp-mode . lsp-ui-mode))
-
   (use-package company
     :ensure t
-    :after lsp-mode
     :config
     (setq company-idle-delay 0.01)
-    (add-hook 'lsp-mode-hook 'company-mode))
+    (add-hook 'after-init-hook 'global-company-mode))
 
-  (use-package dap-mode
-    :ensure t
-    :after lsp-mode
-    :config
-    (dap-mode 1)
-    (dap-ui-mode 1))
-#+end_src
-
-** company-mode
-#+begin_src emacs-lisp
-(use-package company
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-#+end_src
-
-** yasnippet
-#+begin_src emacs-lisp
   (use-package yasnippet
     :ensure t
     :config
@@ -568,59 +399,89 @@
     :after yasnippet)
 #+end_src
 
-** yafolding
+* LSP / DEVELOPMENT
 #+begin_src emacs-lisp
-  (use-package yafolding
-    :ensure t)
-#+end_src
-
-** magit
-#+begin_src emacs-lisp
-(use-package magit
-  :ensure t)
-#+end_src
-
-** orderless
-#+begin_src emacs-lisp
-  (use-package orderless
+  (use-package lsp-mode
     :ensure t
-    :custom
-    (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
-#+end_src
+    :defer t
+    :commands lsp
+    :hook ((python-mode . lsp)
+           (c++-mode    . lsp)
+           (java-mode   . lsp)
+           (js-mode     . lsp)
+           (html-mode   . lsp)
+           (css-mode    . lsp)
+           (go-mode     . lsp)))
 
-** nyan-mode
-#+begin_src emacs-lisp
-  (use-package nyan-mode
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode
+    :hook (lsp-mode . lsp-ui-mode)
+    :config
+    (setq lsp-ui-sideline-enable t
+          lsp-ui-doc-enable t
+          lsp-ui-imenu-enable t))
+
+  (use-package dap-mode
+    :ensure t
+    :after lsp-mode
+    :config
+    (dap-mode 1)
+    (dap-ui-mode 1))
+
+  (use-package flycheck
+    :ensure t)
+
+  (use-package auto-complete
     :ensure t
     :config
-    (nyan-mode 1)) 
+    (ac-config-default))
 #+end_src
 
-** neotree
+* EDITING ENHANCEMENTS
 #+begin_src emacs-lisp
+  (use-package smartparens
+    :ensure smartparens
+    :config
+    (smartparens-global-mode t))
+
+  (use-package aggressive-indent
+    :ensure t
+    :config
+    (global-aggressive-indent-mode t))
+
+  (use-package yafolding
+    :ensure t
+    :hook (prog-mode . yafolding-mode))
+#+end_src
+
+* FILE & PROJECT NAVIGATION
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    :ensure t
+    :custom
+    (nerd-icons-font-family "JetBrainsMono NF"))
+
   (use-package neotree
     :ensure t
     :config
     (setq neo-theme 'nerd-icons)
+    ;; disable line numbers in neotree's window
+    (add-hook 'neo-after-create-hook
+              (lambda (&optional dummy)
+                (display-line-numbers-mode -1)
+                (other-window 1))))
 
-  ;; disable line numbers in neotree's window
-  (add-hook 'neo-after-create-hook
-          (lambda (&optional dummy)
-            (display-line-numbers-mode -1)
-            (other-window 1))))
+  (use-package dirvish
+    :ensure t)
 
-#+end_src
-
-** dashboard
-#+begin_src emacs-lisp
   (use-package dashboard
     :ensure t
     :config
-    (setq dashboard-items '((recents  . 5)
-                            (bookmarks . 5)
-                            (agenda . 5)
-                            (projects . 5)))
+    (setq dashboard-items '((recents   . 5)
+                             (bookmarks . 5)
+                             (agenda    . 5)
+                             (projects  . 5)))
     (setq dashboard-set-heading-icons t
           dashboard-set-file-icons t
           dashboard-startup-banner 'official)
@@ -628,51 +489,10 @@
     (dashboard-setup-startup-hook))
 #+end_src
 
-** dirvish
+* VERSION CONTROL
 #+begin_src emacs-lisp
-  (use-package dirvish
+  (use-package magit
     :ensure t)
-#+end_src
-
-** nerd-icons
-#+begin_src emacs-lisp
-  (use-package nerd-icons
-    :ensure t
-    :custom
-    (nerd-icons-font-family "JetBrainsMono NF"))
-#+end_src
-
-** yafolding
-#+begin_src emacs-lisp
-  (use-package yafolding
-      :ensure t
-      :config
-      :hook (prog-mode . yafolding-mode))
-#+end_src
-
-** sops
-#+begin_src 
-(use-package sops
-  :ensure (:type git :host github :repo "djgoku/sops")
-  :init
-  (global-sops-mode 1))
-#+end_src
-
-* HOOKS
-** org-mode
-#+begin_src emacs-lisp
-  (use-package org-fragtog
-    :ensure t)
-  (add-hook 'org-mode-hook 'org-fragtog-mode)
-  (add-hook 'org-mode-hook 'org-display-inline-images)
-#+end_src
-
-** pdf-tools
-#+begin_src emacs-lisp
-(add-hook 'pdf-view-mode-hook
-    (lambda ()
-        (display-line-numbers-mode -1)
-        (blink-cursor-mode -1)))
 #+end_src
 
 * ORG MODE
@@ -688,6 +508,14 @@
     :config
     (org-roam-setup))
 
+  (setq org-roam-completion-system 'ido)
+
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :target (file+head "${slug}.org"
+                               "#+options: toc:nil\n#+title: ${title}\n#+created: %<%Y-%m-%d>\n")
+           :unnarrowed t)))
+
   (defun my/org-roam-node-has-tag (node tag)
     (member tag (org-roam-node-tags node)))
 
@@ -695,13 +523,6 @@
     (interactive)
     (let ((tag (read-string "Enter tag: ")))
       (org-roam-node-find nil nil (lambda (node) (my/org-roam-node-has-tag node tag)))))
-
-  (setq org-roam-completion-system 'ido)
-
-  (setq org-roam-capture-templates
-      '(("d" "default" plain "%?"
-         :target (file+head "${slug}.org" "#+options: toc:nil\n#+title: ${title}\n#+created: %<%Y-%m-%d>\n")
-         :unnarrowed t)))
 #+end_src
 
 ** deft
@@ -711,52 +532,130 @@
   (setq deft-directory "~/org")
 #+end_src
 
-** export to ~/org/exports
+** org-journal
 #+begin_src emacs-lisp
-  (setq org-publish-project-alist
-  '(("html"
-     :base-directory "~/org/"
-     :base-extension "org"
-     :publishing-directory "~/org/exports"
-     :publishing-function org-html-export-to-html)
-    ("pdf"
-     :base-directory "~/org/"
-     :base-extension "org"
-     :publishing-directory "~/org/exports"
-     :publishing-function org-latex-export-to-pdf)
-    ("all" :components ("html" "pdf"))))
+  (use-package org-journal
+    :ensure t
+    :custom
+    (org-journal-dir "~/org/diario/")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-enable-encryption t))
 #+end_src
 
 ** org-agenda
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/org"))
+  (setq org-agenda-files '("~/org"))
 #+end_src
 
-** org-journal
+** export to ~/org/exports
 #+begin_src emacs-lisp
-(use-package org-journal
-  :ensure t
-  :custom
-  (org-journal-dir "~/org/diario/")
-  (org-journal-file-format "%Y-%m-%d.org")
-  (org-journal-enable-encryption t))
+  (setq org-publish-project-alist
+        '(("html"
+           :base-directory "~/org/"
+           :base-extension "org"
+           :publishing-directory "~/org/exports"
+           :publishing-function org-html-export-to-html)
+          ("pdf"
+           :base-directory "~/org/"
+           :base-extension "org"
+           :publishing-directory "~/org/exports"
+           :publishing-function org-latex-export-to-pdf)
+          ("all" :components ("html" "pdf"))))
+#+end_src
+
+** hooks (fragtog, inline images, pdf-tools)
+#+begin_src emacs-lisp
+  (use-package org-fragtog
+    :ensure t)
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  (add-hook 'org-mode-hook 'org-display-inline-images)
+
+  (add-hook 'pdf-view-mode-hook
+            (lambda ()
+              (display-line-numbers-mode -1)
+              (blink-cursor-mode -1)))
+#+end_src
+
+* MISC PACKAGES
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :pin manual
+    :config
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-width))
+
+  (use-package pdf-view-restore
+    :ensure t
+    :after pdf-tools
+    :config
+    (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+
+  (use-package elcord
+    :ensure t
+    :config
+    (setq elcord-client-id "1333674662613356554")
+    (elcord-mode 1))
+
+  (use-package gcmh
+    :ensure t
+    :config
+    (gcmh-mode 1))
+
+  (use-package keepass-mode
+    :ensure t)
+
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (nyan-mode 1))
+
+  (unless (package-installed-p 'sops)
+    (package-vc-install "https://github.com/djgoku/sops"))
+
+  (use-package sops
+    :ensure nil 
+    :init
+    (global-sops-mode 1))
+#+end_src
+
+** jabber (disabled)
+#+begin_src emacs-lisp
+  ;; (use-package jabber
+  ;;   :ensure nil
+  ;;   :vc (:url "https://codeberg.org/emacs-jabber/emacs-jabber.git"
+  ;;             :branch "master"
+  ;;             :rev :newest
+  ;;             :lisp-dir "lisp"
+  ;;             :doc "README.org"
+  ;;             :make "module"))
+  ;;
+  ;; (setq jabber-account-list
+  ;;       `((,(getenv "JABBER_USER")
+  ;;          (:password . ,(getenv "JABBER_PASSWORD"))
+  ;;          (:network-server . ,(getenv "JABBER_SERVER"))
+  ;;          (:connection-type . ssl))))
+  ;;
+  ;; (setq jabber-auto-reconnect t)
+  ;; (setq jabber-history-enabled t)
 #+end_src
 
 * DIRECTORY SHORTCUTS
 #+begin_src emacs-lisp
   (setq directories
-  '((proj . "~/projects/")
-    (docs . "~/Documents/")
-    (books . "f:/books/")
-    (org . "~/org/")
-    (downloads . "~/Downloads/")))
+        '((proj      . "~/projects/")
+          (docs      . "~/Documents/")
+          (books     . "f:/books/")
+          (org       . "~/org/")
+          (downloads . "~/Downloads/")))
 
   (defun find-file-in-directory (alias)
-  (interactive
-   (list (intern (completing-read "choose directory: " (mapcar (lambda (pair) (symbol-name (car pair))) directories)))))
-  (let ((dir (cdr (assoc alias directories))))
-    (if dir
-        (let ((file (read-file-name "select file: " dir)))
-          (find-file file))
-      (message "directory not found"))))
+    (interactive
+     (list (intern (completing-read "choose directory: "
+                                     (mapcar (lambda (pair) (symbol-name (car pair))) directories)))))
+    (let ((dir (cdr (assoc alias directories))))
+      (if dir
+          (let ((file (read-file-name "select file: " dir)))
+            (find-file file))
+        (message "directory not found"))))
 #+end_src
