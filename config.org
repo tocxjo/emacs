@@ -650,6 +650,14 @@
       :hook (prog-mode . yafolding-mode))
 #+end_src
 
+** sops
+#+begin_src 
+(use-package sops
+  :ensure (:type git :host github :repo "djgoku/sops")
+  :init
+  (global-sops-mode 1))
+#+end_src
+
 * HOOKS
 ** org-mode
 #+begin_src emacs-lisp
