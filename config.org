@@ -152,26 +152,24 @@
     (push '("<=" . ?≤) prettify-symbols-alist)
     (push '("&&" . ?∧) prettify-symbols-alist)
     (push '("||" . ?∨) prettify-symbols-alist)
-    (push '("!"  . ?¬) prettify-symbols-alist))
+    (push '("->" . ?→) prettify-symbols-alist)
+    (push '("<-" . ?←) prettify-symbols-alist)
+    (push '("!"  . ?¬) prettify-symbols-alist)
+    (push '("*"  . ?∗) prettify-symbols-alist))
 
   (add-hook 'go-mode-hook
             (lambda ()
               (my/prettify-symbols-common)
               (push '("exists"    . ?∃) prettify-symbols-alist)
               (push '(":= range"  . ?∈) prettify-symbols-alist)
-              (push '("<-"        . ?←) prettify-symbols-alist)))
 
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (my/prettify-symbols-common)
-              (push '("->" . ?→) prettify-symbols-alist)
-              (push '("*"  . ?∗) prettify-symbols-alist)))
-
-  (add-hook 'java-mode-common-hook
-            (lambda ()
-              (my/prettify-symbols-common)
-              (push '("->" . ?→) prettify-symbols-alist)
-              (push '("*"  . ?∗) prettify-symbols-alist)))
+  (add-hook 'python-mode-hook
+          (lambda ()
+            (my/prettify-symbols-common)
+            (push '("lambda" . ?λ) prettify-symbols-alist)
+            (push '("in"     . ?∈) prettify-symbols-alist)
+            (push '("not in" . ?∉) prettify-symbols-alist)
+            (push '("not"    . ?¬) prettify-symbols-alist)))
 
   (global-prettify-symbols-mode t)
 #+end_src
