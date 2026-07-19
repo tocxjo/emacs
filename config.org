@@ -161,7 +161,7 @@
             (lambda ()
               (my/prettify-symbols-common)
               (push '("exists"    . ?∃) prettify-symbols-alist)
-              (push '(":= range"  . ?∈) prettify-symbols-alist)
+              (push '(":= range"  . ?∈) prettify-symbols-alist)))
 
   (add-hook 'python-mode-hook
           (lambda ()
