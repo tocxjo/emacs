@@ -481,6 +481,7 @@
                              (agenda    . 5)
                              (projects  . 5)))
     (setq dashboard-set-heading-icons t
+          dashboard-icon-type 'nerd-icons
           dashboard-set-file-icons t
           dashboard-startup-banner 'official)
     (add-hook 'dashboard-after-initialize-hook 'neotree-toggle)
