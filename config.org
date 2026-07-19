@@ -484,7 +484,10 @@
           dashboard-icon-type 'nerd-icons
           dashboard-set-file-icons t
           dashboard-startup-banner 'official)
-    (add-hook 'dashboard-after-initialize-hook 'neotree-toggle)
+    (add-hook 'dashboard-after-initialize-hook
+          (lambda ()
+            (neotree-toggle)
+            (switch-to-buffer dashboard-buffer-name)))
     (dashboard-setup-startup-hook))
 #+end_src
 
